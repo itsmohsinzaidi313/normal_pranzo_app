@@ -11,6 +11,7 @@ import 'package:normalpranzoapp/objects/deal_item.dart';
 import 'package:normalpranzoapp/objects/json_elements.dart';
 import 'package:normalpranzoapp/objects/product.dart';
 
+import 'objects/promotion.dart';
 import 'objects/restaurant.dart';
 
 class JsonManipulator {
@@ -25,17 +26,9 @@ class JsonManipulator {
     Response response;
     try {
       response = await get(Config.apiRestaurant)
-          .timeout(Duration(seconds: Config.connectionTimeout), onTimeout: () {
-        _log.w('CONNECTION TIMEOUT');
-        return null;
-      }).catchError((onError) {
-        exceptions.add(onError);
-        if (onError is SocketException)
-          messages.add('No internet connection.');
-        else
-          messages.add(onError.toString());
-        return null;
-      });
+          .timeout(Duration(seconds: Config.connectionTimeout),
+              onTimeout: () => null)
+          .catchError((onError) => handelException(onError));
     } catch (e) {
       return null;
     }
@@ -163,7 +156,7 @@ class JsonManipulator {
     Map<String, String> packet = {'mobile': username, 'password': password};
     Response response = await post(Config.apiLogin, body: packet)
         .timeout(Duration(seconds: 10), onTimeout: () => null)
-        .catchError((onError) => messages.add('$onError'));
+        .catchError((onError) => handelException(onError));
     if (response != null) {
       bool success = jsonDecode(response.body)['success'];
       Map data = jsonDecode(response.body)['data'];
@@ -182,13 +175,26 @@ class JsonManipulator {
     return status;
   }
 
-  Future<bool> signUpUser() async {
+  Future<bool> signUp(Customer customer) async {
+    bool status = false;
     try {
-      Response response = await post(Config.apiCustomerSignUp);
-      return false;
+      Response response =
+      await post(Config.apiCustomerSignUp, body: customer.getMap())
+          .timeout(Duration(seconds: Config.connectionTimeout),
+          onTimeout: () => null)
+          .catchError((onError) => handelException(onError));
+      if (response != null) {
+        status = jsonDecode(response.body)['success'];
+        Map data = jsonDecode(response.body)['data'];
+        if (status) {
+          messages.add(data['status']);
+        }
+      }
+      return status;
     } catch (e) {
       _log.e(e);
-      return false;
+      messages.add(e);
+      return status;
     }
   }
 
@@ -198,10 +204,10 @@ class JsonManipulator {
       'content-type': 'application/x-www-form-urlencoded'
     };
     Response response = await post(Config.apiPostOrder,
-            headers: header, body: postOrder.getMap())
-        .timeout(Duration(seconds: 10), onTimeout: () => null);
-    print(Config.apiPostOrder);
-    print(postOrder.getMap());
+        headers: header, body: postOrder.getMap())
+        .timeout(Duration(seconds: Config.connectionTimeout),
+        onTimeout: () => null)
+        .catchError((onError) => handelException(onError));
     bool success = jsonDecode(response.body)['success'];
     Map data = jsonDecode(response.body)['data'];
     if (success) {
@@ -211,5 +217,45 @@ class JsonManipulator {
       messages.add(data['message']);
     }
     return status;
+  }
+
+  Future<List<Promotion>> getPromotions() async {
+    List<Promotion> promotions;
+    try {
+      Response response = await get(Config.apiPromotion)
+          .timeout(Duration(seconds: 10), onTimeout: () => null)
+          .catchError((onError) => handelException(onError));
+      bool success = jsonDecode(response.body)['success'];
+      List<dynamic> data = jsonDecode(response.body)['data'];
+      if (success) {
+        data.forEach((element) {
+          Promotion promotion = new Promotion();
+          promotion.promotionId = element['promotionId'];
+          promotion.branchId = element['branchId'];
+          promotion.title = element['title'];
+          promotion.image = element['itemImage'];
+          promotion.itemName = element['itemName'];
+          promotion.price = element['itemPrice'];
+          promotion.discount = element['discount'];
+          promotion.discountType = element['discountType'];
+          promotion.dateFrom = element['dateFrom'];
+          promotion.dateTo = element['dateTo'];
+          promotion.isActive = element['isActive'];
+          promotions.add(promotion);
+        });
+      }
+      return promotions;
+    } catch (e) {
+      _log.e(e);
+      return promotions;
+    }
+  }
+
+  void handelException(Exception e) {
+    exceptions.add(e);
+    if (e is SocketException)
+      messages.add('No internet connection.');
+    else
+      messages.add(e.toString());
   }
 }

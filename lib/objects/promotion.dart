@@ -9,6 +9,13 @@ class Promotion {
   String _isActive;
   String _dateFrom;
   String _dateTo;
+  String _price;
+
+  String get discountType => _discountType;
+
+  set discountType(String value) {
+    _discountType = value;
+  }
 
   String get promotionId => _promotionId;
 
@@ -39,12 +46,6 @@ class Promotion {
     _isActive = value;
   }
 
-  String get discoutType => _discountType;
-
-  set discoutType(String value) {
-    _discountType = value;
-  }
-
   String get discount => _discount;
 
   set discount(String value) {
@@ -71,5 +72,11 @@ class Promotion {
 
   set branchId(String value) {
     _branchId = value;
+  }
+
+  String get price => _price;
+
+  set price(String value) {
+    _price = value;
   }
 }

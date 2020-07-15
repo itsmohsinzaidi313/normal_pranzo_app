@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:normalpranzoapp/pages/dashboard_page.dart';
+import 'package:normalpranzoapp/json_manipulator.dart';
+import 'package:normalpranzoapp/objects/customer.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 import '../app_theme.dart';
@@ -13,11 +14,12 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
   final formKey = GlobalKey<FormState>();
   ProgressDialog progressDialog;
-  String user, key, secKey, shop, mobile, name;
+  String name, contact, add1, add2, password;
 
   @override
   Widget build(BuildContext context) {
     progressDialog = AppTheme.showProgressDialog(context);
+    progressDialog.hide();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppTheme.optpAppBarA(title: 'pranzo'),
@@ -42,8 +44,8 @@ class _RegisterViewState extends State<RegisterView> {
                           width: 3,
                           color: AppTheme.appThemeColor,
                         )),
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    width: MediaQuery.of(context).size.height * 0.39,
+                    height: MediaQuery.of(context).size.height * 0.54,
+                    width: MediaQuery.of(context).size.width * 0.7,
                     child: Form(
                       child: Column(
                         children: <Widget>[
@@ -79,23 +81,31 @@ class _RegisterViewState extends State<RegisterView> {
                                         icon: Icon(Icons.phone)),
                                     validator: (value) =>
                                         value.isEmpty ? 'Required' : null,
-                                    onSaved: (value) => mobile = value,
+                                    onSaved: (value) => contact = value,
                                   ),
                                   TextFormField(
                                     decoration: InputDecoration(
                                         hintText: 'Delivery Address',
-                                        icon: Icon(Icons.account_box)),
+                                        icon: Icon(Icons.home)),
                                     validator: (value) =>
-                                        value.isEmpty ? "Required" : null,
-                                    onSaved: (value) => key = value,
+                                    value.isEmpty ? "Required" : null,
+                                    onSaved: (value) => add1 = value,
                                   ),
                                   TextFormField(
                                     decoration: InputDecoration(
-                                        hintText: 'total',
+                                        hintText: 'Payment Address',
+                                        icon: Icon(Icons.location_city)),
+                                    validator: (value) =>
+                                        value.isEmpty ? "Required" : null,
+                                    onSaved: (value) => add2 = value,
+                                  ),
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                        hintText: 'Password',
                                         icon: Icon(Icons.vpn_key)),
                                     validator: (value) =>
                                         value.isEmpty ? "Required" : null,
-                                    onSaved: (value) => key = value,
+                                    onSaved: (value) => password = value,
                                   ),
                                 ],
                               ),
@@ -109,14 +119,34 @@ class _RegisterViewState extends State<RegisterView> {
                                   child: AppTheme.textWidget('Register',
                                       fontSize: 16, fontColor: Colors.white),
                                   onPressed: () {
-                                    //progressDialog.show();
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        new MaterialPageRoute(
-                                            builder: (context) =>
-                                                DashBoardView()),
-                                        (route) => false);
                                     if (formKey.currentState.validate()) {
                                       formKey.currentState.save();
+                                      progressDialog.show();
+                                      Customer customer = new Customer();
+                                      customer.name = name;
+                                      customer.contact = contact;
+                                      customer.shippingAddress = add1;
+                                      customer.paymentAddress = add2;
+                                      customer.password = password;
+                                      JsonManipulator jsonManipulator = new JsonManipulator();
+                                      jsonManipulator
+                                          .signUp(customer)
+                                          .then((value) {
+                                        progressDialog.hide();
+                                        if (value)
+                                          AppTheme.showAlertDialogOK(
+                                              context,
+                                              'Success',
+                                              ('Your account has been created.\nPlease go back and sign in to place order'),
+                                                  () => Navigator.pop(context));
+                                        else
+                                          AppTheme.showAlertDialogOK(
+                                              context,
+                                              'Failure',
+                                              ('${jsonManipulator
+                                                  .messages[0]}\nPlease try again later.'),
+                                                  () => Navigator.pop(context));
+                                      });
                                     }
                                   })),
                         ],

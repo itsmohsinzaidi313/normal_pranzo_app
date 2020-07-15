@@ -259,4 +259,34 @@ class AppTheme {
       ],
     );
   }
+
+  static Drawer drawerWidget() {
+    return Drawer(
+      child: Container(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(color: AppTheme.appThemeColor),
+              child: AppTheme.listTileWidget('Header'),
+            ),
+            AppTheme.listTileWidget('Promotions',
+                trailing: IconButton(
+                  icon: Icon(Icons.arrow_forward_ios),
+                  onPressed: () {},
+                )),
+            AppTheme.listTileWidget('Events',
+                trailing: IconButton(
+                  icon: Icon(Icons.arrow_forward_ios),
+                  onPressed: () {},
+                )),
+            AppTheme.listTileWidget('Table Reservation',
+                trailing: IconButton(
+                  icon: Icon(Icons.arrow_forward_ios),
+                  onPressed: () {},
+                )),
+          ],
+        ),
+      ),
+    );
+  }
 }

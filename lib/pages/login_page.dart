@@ -42,6 +42,8 @@ class _LoginViewState extends State<LoginView> {
             Center(
               heightFactor: 1.5,
               child: Container(
+                height: MediaQuery.of(context).size.height * 0.3,
+                width: MediaQuery.of(context).size.width * 0.7,
                 decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -55,8 +57,6 @@ class _LoginViewState extends State<LoginView> {
                       width: 3,
                       color: AppTheme.appThemeColor,
                     )),
-                height: 275,
-                width: 350,
                 child: Form(
                   child: Column(
                     children: <Widget>[
@@ -83,7 +83,7 @@ class _LoginViewState extends State<LoginView> {
                                     hintText: 'Mobile #',
                                     icon: Icon(Icons.phone)),
                                 validator: (value) =>
-                                    value.isEmpty ? 'Required' : null,
+                                value.isEmpty ? 'Required' : null,
                                 onSaved: (value) => user = value,
                               ),
                               TextFormField(
@@ -91,7 +91,7 @@ class _LoginViewState extends State<LoginView> {
                                     hintText: 'Password',
                                     icon: Icon(Icons.lock_outline)),
                                 validator: (value) =>
-                                    value.isEmpty ? "Required" : null,
+                                value.isEmpty ? "Required" : null,
                                 onSaved: (value) => key = value,
                               ),
                             ],
@@ -110,7 +110,7 @@ class _LoginViewState extends State<LoginView> {
                                 if (formKey.currentState.validate()) {
                                   formKey.currentState.save();
                                   JsonManipulator jsonManipulator =
-                                      new JsonManipulator();
+                                  new JsonManipulator();
                                   jsonManipulator
                                       .signIn(user, key)
                                       .then((status) {

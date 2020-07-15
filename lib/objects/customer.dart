@@ -4,6 +4,13 @@ class Customer {
   String _shippingAddress;
   String _paymentAddress;
   String _contact;
+  String _password;
+
+  String get password => _password;
+
+  set password(String value) {
+    _password = value;
+  }
 
   String get id => _id;
 
@@ -33,5 +40,15 @@ class Customer {
 
   set name(String value) {
     _name = value;
+  }
+
+  Map<String, String> getMap() {
+    return {
+      'name': name,
+      'password': password,
+      'mobile': contact,
+      'shippingAddress': shippingAddress,
+      'paymentAddress': paymentAddress
+    };
   }
 }
