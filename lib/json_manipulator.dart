@@ -8,6 +8,7 @@ import 'package:normalpranzoapp/objects/category.dart';
 import 'package:normalpranzoapp/objects/customer.dart';
 import 'package:normalpranzoapp/objects/deal.dart';
 import 'package:normalpranzoapp/objects/deal_item.dart';
+import 'package:normalpranzoapp/objects/events.dart';
 import 'package:normalpranzoapp/objects/json_elements.dart';
 import 'package:normalpranzoapp/objects/product.dart';
 
@@ -179,10 +180,10 @@ class JsonManipulator {
     bool status = false;
     try {
       Response response =
-      await post(Config.apiCustomerSignUp, body: customer.getMap())
-          .timeout(Duration(seconds: Config.connectionTimeout),
-          onTimeout: () => null)
-          .catchError((onError) => handelException(onError));
+          await post(Config.apiCustomerSignUp, body: customer.getMap())
+              .timeout(Duration(seconds: Config.connectionTimeout),
+                  onTimeout: () => null)
+              .catchError((onError) => handelException(onError));
       if (response != null) {
         status = jsonDecode(response.body)['success'];
         Map data = jsonDecode(response.body)['data'];
@@ -252,11 +253,41 @@ class JsonManipulator {
     }
   }
 
-  void handelException(Exception e) {
+  Future<List<Event>> getEvents() async {
+    List<Event> events;
+    try {
+      Response response = await get(Config.apiEvents)
+          .timeout(Duration(seconds: 10), onTimeout: () => null)
+          .catchError((onError) => handelException(onError));
+      bool success = jsonDecode(response.body)['success'];
+      List<dynamic> data = jsonDecode(response.body)['data'];
+      if (success) {
+        events = [];
+        data.forEach((element) {
+          Event event = new Event();
+          event.name = element['name'].toString();
+          event.image = element['image'].toString();
+          event.dateFrom = element['dateFrom'].toString();
+          event.dateTo = element['dateTo'].toString();
+          event.isActive = element['isActive'].toString();
+          events.add(event);
+        });
+      }
+      return events;
+    } catch (e) {
+      _log.e(e);
+      return events;
+    }
+  }
+
+  Future<bool> reserveTable() {}
+
+  Null handelException(Exception e) {
     exceptions.add(e);
     if (e is SocketException)
       messages.add('No internet connection.');
     else
       messages.add(e.toString());
+    return null;
   }
 }

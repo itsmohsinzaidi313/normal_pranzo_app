@@ -4,6 +4,14 @@ class Event {
   String _guest;
   String _image;
   String _isActive;
+  String _dateFrom;
+  String _dateTo;
+
+  String get dateFrom => _dateFrom;
+
+  set dateFrom(String value) {
+    _dateFrom = value;
+  }
 
   String get restaurantId => _restaurantId;
 
@@ -33,5 +41,11 @@ class Event {
 
   set name(String value) {
     _name = value;
+  }
+
+  String get dateTo => _dateTo;
+
+  set dateTo(String value) {
+    _dateTo = value;
   }
 }

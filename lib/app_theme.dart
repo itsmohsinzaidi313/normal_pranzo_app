@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:normalpranzoapp/objects/cart.dart';
 import 'package:normalpranzoapp/pages/cart_page.dart';
+import 'package:normalpranzoapp/pages/events_page.dart';
 import 'package:normalpranzoapp/pages/promotions_page.dart';
 import 'package:normalpranzoapp/pages/table_reservation_page.dart';
 import 'package:progress_dialog/progress_dialog.dart';
@@ -267,8 +268,9 @@ class AppTheme {
         child: ListView(
           children: <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(color: AppTheme.appThemeColor),
-              child: AppTheme.listTileWidget('Header'),
+              padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+              decoration: BoxDecoration(color: Colors.white),
+              child: Image.asset('images/pranzo_logo2.png'),
             ),
             AppTheme.listTileWidget('Promotions',
                 trailing: IconButton(
@@ -281,7 +283,9 @@ class AppTheme {
             AppTheme.listTileWidget('Events',
                 trailing: IconButton(
                   icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).push(
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) => new EventsView())),
                 )),
             AppTheme.listTileWidget('Table Reservation',
                 trailing: IconButton(

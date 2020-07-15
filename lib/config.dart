@@ -21,6 +21,8 @@ class Config {
       '$apiPrefix/order/create?access-token=$token';
   static const String apiLogin =
       '$apiPrefix/customer/customerLogin?access-token=$token';
+  static const String apiTableReservation =
+      '$apiPrefix/reservation/create?access-token=$token';
 
   static const int connectionTimeout = 10; // seconds
   static const int splashTime = 3; // seconds

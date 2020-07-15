@@ -13,7 +13,6 @@ class PromotionsView extends StatefulWidget {
 class _PromotionsViewState extends State<PromotionsView> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<Promotion> promotions = [];
-  ProgressDialog progressDialog;
 
   _PromotionsViewState(key) {
     JsonManipulator jsonManipulator = new JsonManipulator();
@@ -24,15 +23,7 @@ class _PromotionsViewState extends State<PromotionsView> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    progressDialog.hide();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    progressDialog = AppTheme.showProgressDialog(context);
-    progressDialog.show();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppTheme.optpAppBarA(
@@ -46,8 +37,8 @@ class _PromotionsViewState extends State<PromotionsView> {
             onPressed: () => Navigator.of(context).pop()
         ),
       ),
-      drawer: AppTheme.drawerWidget(context),
       body: ListView.builder(
+        itemCount: promotions.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             padding: EdgeInsets.all(8),
@@ -122,13 +113,7 @@ class _PromotionsViewState extends State<PromotionsView> {
             ),
           );
         },
-        itemCount: promotions.length,
       ),
     );
-  }
-
-  @override
-  void setState(VoidCallback fn) {
-
   }
 }
