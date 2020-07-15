@@ -95,7 +95,7 @@ class _DashBoardViewState extends State<DashBoardView> {
           title: 'Pranzo',
           onPressed: () => _scaffoldKey.currentState.openDrawer(),
           context: context),
-      drawer: AppTheme.drawerWidget(),
+      drawer: AppTheme.drawerWidget(context),
       body: ListView(
         children: <Widget>[
           Container(

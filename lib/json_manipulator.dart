@@ -228,19 +228,20 @@ class JsonManipulator {
       bool success = jsonDecode(response.body)['success'];
       List<dynamic> data = jsonDecode(response.body)['data'];
       if (success) {
+        promotions = [];
         data.forEach((element) {
           Promotion promotion = new Promotion();
-          promotion.promotionId = element['promotionId'];
-          promotion.branchId = element['branchId'];
-          promotion.title = element['title'];
-          promotion.image = element['itemImage'];
-          promotion.itemName = element['itemName'];
-          promotion.price = element['itemPrice'];
-          promotion.discount = element['discount'];
-          promotion.discountType = element['discountType'];
-          promotion.dateFrom = element['dateFrom'];
-          promotion.dateTo = element['dateTo'];
-          promotion.isActive = element['isActive'];
+          promotion.promotionId = element['promotionId'].toString();
+          promotion.branchId = element['branchId'].toString();
+          promotion.title = element['title'].toString();
+          promotion.image = element['itemImage'].toString();
+          promotion.itemName = element['itemName'].toString();
+          promotion.price = element['itemPrice'].toString();
+          promotion.discount = element['discount'].toString();
+          promotion.discountType = element['discountType'].toString();
+          promotion.dateFrom = element['dateFrom'].toString();
+          promotion.dateTo = element['dateTo'].toString();
+          promotion.isActive = element['isActive'].toString();
           promotions.add(promotion);
         });
       }

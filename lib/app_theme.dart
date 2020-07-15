@@ -4,6 +4,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:normalpranzoapp/objects/cart.dart';
 import 'package:normalpranzoapp/pages/cart_page.dart';
+import 'package:normalpranzoapp/pages/promotions_page.dart';
+import 'package:normalpranzoapp/pages/table_reservation_page.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 import 'bloc/bloc.dart';
@@ -133,8 +135,7 @@ class AppTheme {
         });
   }
 
-  static AppBar optpAppBarA(
-      {String title, Function onPressed, int quantity = 0, Widget leading}) {
+  static AppBar optpAppBarA({String title, int quantity = 0, Widget leading}) {
     return AppBar(
       leading: leading,
       centerTitle: true,
@@ -260,7 +261,7 @@ class AppTheme {
     );
   }
 
-  static Drawer drawerWidget() {
+  static Drawer drawerWidget(BuildContext context) {
     return Drawer(
       child: Container(
         child: ListView(
@@ -272,7 +273,10 @@ class AppTheme {
             AppTheme.listTileWidget('Promotions',
                 trailing: IconButton(
                   icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).push(
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new PromotionsView())),
                 )),
             AppTheme.listTileWidget('Events',
                 trailing: IconButton(
@@ -282,7 +286,10 @@ class AppTheme {
             AppTheme.listTileWidget('Table Reservation',
                 trailing: IconButton(
                   icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).push(
+                      new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new TableReservationView())),
                 )),
           ],
         ),

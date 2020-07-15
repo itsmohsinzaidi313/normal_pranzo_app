@@ -35,7 +35,6 @@ class _CartViewState extends State<CartView> {
     return Scaffold(
       appBar: AppTheme.optpAppBarA(
           title: 'cart',
-          onPressed: () => Navigator.of(context).pop(),
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
