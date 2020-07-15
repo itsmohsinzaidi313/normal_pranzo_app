@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:normalpranzoapp/app_theme.dart';
-import 'package:normalpranzoapp/objects/customer.dart';
+import 'package:normalpranzoapp/objects/reservation.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 import '../json_manipulator.dart';
@@ -13,22 +14,31 @@ class TableReservationView extends StatefulWidget {
 class _TableReservationViewState extends State<TableReservationView> {
   final formKey = GlobalKey<FormState>();
   ProgressDialog progressDialog;
-  String name, contact, date, time, noOfGuests, paymentMode;
+  String name, contact, date = 'Select Date', time = 'Select Time', noOfGuests;
+  int paymentMode = 0;
+  List<String> list = ['Cash', 'Credit'];
 
   @override
   Widget build(BuildContext context) {
     progressDialog = AppTheme.showProgressDialog(context);
-    progressDialog.hide();
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppTheme.optpAppBarA(title: 'pranzo'),
+      appBar: AppTheme.optpAppBarA(
+        title: 'pranzo',
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.grey,
+            ),
+            onPressed: () => Navigator.of(context).pop()),
+      ),
       body: Stack(
         children: <Widget>[
           SingleChildScrollView(
             child: Column(
               children: <Widget>[
                 Center(
-                  heightFactor: 1.5,
+                  heightFactor: 1.3,
                   child: Container(
                     decoration: BoxDecoration(
                         boxShadow: [
@@ -43,7 +53,10 @@ class _TableReservationViewState extends State<TableReservationView> {
                           width: 3,
                           color: AppTheme.appThemeColor,
                         )),
-                    height: MediaQuery.of(context).size.height * 0.54,
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.59,
                     width: MediaQuery.of(context).size.width * 0.7,
                     child: Form(
                       child: Column(
@@ -53,7 +66,7 @@ class _TableReservationViewState extends State<TableReservationView> {
                               color: AppTheme.appThemeColor,
                               child: Center(
                                 child: Text(
-                                  'SIGN UP',
+                                  'TABLE RESERVATION',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18,
@@ -75,36 +88,71 @@ class _TableReservationViewState extends State<TableReservationView> {
                                     onSaved: (value) => name = value,
                                   ),
                                   TextFormField(
+                                    keyboardType: TextInputType.phone,
                                     decoration: InputDecoration(
                                         hintText: 'Mobile #',
                                         icon: Icon(Icons.phone)),
                                     validator: (value) =>
-                                        value.isEmpty ? 'Required' : null,
+                                    value.isEmpty ? 'Required' : null,
                                     onSaved: (value) => contact = value,
                                   ),
                                   TextFormField(
+                                    keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
-                                        hintText: 'Delivery Address',
-                                        icon: Icon(Icons.home)),
+                                        hintText: 'No of Guest',
+                                        icon: Icon(Icons.group)),
                                     validator: (value) =>
                                         value.isEmpty ? "Required" : null,
-                                    onSaved: (value) => name = value,
+                                    onSaved: (value) => noOfGuests = value,
                                   ),
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                        hintText: 'Payment Address',
-                                        icon: Icon(Icons.location_city)),
-                                    validator: (value) =>
-                                        value.isEmpty ? "Required" : null,
-                                    onSaved: (value) => name = value,
+                                  ListTile(
+                                    leading: Icon(Icons.payment),
+                                    title: DropdownButtonFormField(
+                                      items: <DropdownMenuItem>[
+                                        DropdownMenuItem(
+                                          value: 1,
+                                          child: Text('Cash'),
+                                        ),
+                                        DropdownMenuItem(
+                                          value: 2,
+                                          child: Text('Credit'),
+                                        ),
+                                      ],
+                                      onChanged: (value) =>
+                                      paymentMode = value,
+                                      validator: (value) =>
+                                      value == null ? "Required" : null,
+                                    ),
                                   ),
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                        hintText: 'Password',
-                                        icon: Icon(Icons.vpn_key)),
-                                    validator: (value) =>
-                                        value.isEmpty ? "Required" : null,
-                                    onSaved: (value) => name = value,
+                                  GestureDetector(
+                                    child: ListTile(
+                                      leading: Icon(Icons.date_range),
+                                      title: Text(date),
+                                    ),
+                                    onTap: () {
+                                      AppTheme.datePicker(context)
+                                          .then((value) {
+                                        setState(() {
+                                          date = DateFormat('yyyy-MM-dd')
+                                              .format(value);
+                                        });
+                                      });
+                                    },
+                                  ),
+                                  GestureDetector(
+                                    child: ListTile(
+                                      leading: Icon(Icons.timer),
+                                      title: Text(time),
+                                    ),
+                                    onTap: () {
+                                      AppTheme.timePicker(context)
+                                          .then((value) {
+                                        setState(() {
+                                          time =
+                                              value.format(context).toString();
+                                        });
+                                      });
+                                    },
                                   ),
                                 ],
                               ),
@@ -115,24 +163,34 @@ class _TableReservationViewState extends State<TableReservationView> {
                                   color: AppTheme.appThemeColor,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5)),
-                                  child: AppTheme.textWidget('Register',
+                                  child: AppTheme.textWidget('Reserve',
                                       fontSize: 16, fontColor: Colors.white),
                                   onPressed: () {
-                                    if (formKey.currentState.validate()) {
+                                    if (formKey.currentState.validate() &&
+                                        date != 'Select Date' &&
+                                        time != 'Select Time') {
                                       formKey.currentState.save();
                                       progressDialog.show();
-
+                                      Reservation reservation =
+                                      new Reservation();
+                                      reservation.customerName = name;
+                                      reservation.noOfGuests = noOfGuests;
+                                      reservation.paymentMode =
+                                          paymentMode.toString();
+                                      reservation.reservationDate = date;
+                                      reservation.reservationTime = time;
+                                      reservation.contact = contact;
                                       JsonManipulator jsonManipulator =
                                           new JsonManipulator();
                                       jsonManipulator
-                                          .signUp(null)
+                                          .reserveTable(reservation)
                                           .then((value) {
                                         progressDialog.hide();
                                         if (value)
                                           AppTheme.showAlertDialogOK(
                                               context,
                                               'Success',
-                                              ('Your account has been created.\nPlease go back and sign in to place order'),
+                                              ('Your request for table reservation has been sent.'),
                                               () => Navigator.pop(context));
                                         else
                                           AppTheme.showAlertDialogOK(
@@ -141,6 +199,22 @@ class _TableReservationViewState extends State<TableReservationView> {
                                               ('${jsonManipulator.messages[0]}\nPlease try again later.'),
                                               () => Navigator.pop(context));
                                       });
+                                    } else if (date.toLowerCase() ==
+                                        'select date') {
+                                      AppTheme.showAlertDialogOK(
+                                          context,
+                                          'Attention',
+                                          ('Please select date'),
+                                              () =>
+                                              Navigator.of(context).pop());
+                                    } else if (time.toLowerCase() ==
+                                        'select time') {
+                                      AppTheme.showAlertDialogOK(
+                                          context,
+                                          'Attention',
+                                          ('Please select time'),
+                                              () =>
+                                              Navigator.of(context).pop());
                                     }
                                   })),
                         ],

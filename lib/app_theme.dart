@@ -18,6 +18,20 @@ class AppTheme {
   static Color lightShade = Colors.green[300];
   static Color devajTheme = Color.fromRGBO(130, 9, 63, 1);
 
+  static Future<DateTime> datePicker(BuildContext context) async {
+    DateTime dateTime = DateTime.now();
+    return showDatePicker(
+        context: context,
+        initialDate: dateTime,
+        firstDate: dateTime,
+        lastDate:
+            new DateTime(dateTime.year + 1, dateTime.month, dateTime.day));
+  }
+
+  static Future<TimeOfDay> timePicker(BuildContext context) async {
+    return showTimePicker(context: context, initialTime: TimeOfDay.now());
+  }
+
   static ListTile listTileWidget(String title,
       {Widget leading,
       Widget trailing,

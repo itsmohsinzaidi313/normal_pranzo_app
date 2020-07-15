@@ -11,6 +11,7 @@ import 'package:normalpranzoapp/objects/deal_item.dart';
 import 'package:normalpranzoapp/objects/events.dart';
 import 'package:normalpranzoapp/objects/json_elements.dart';
 import 'package:normalpranzoapp/objects/product.dart';
+import 'package:normalpranzoapp/objects/reservation.dart';
 
 import 'objects/promotion.dart';
 import 'objects/restaurant.dart';
@@ -205,7 +206,7 @@ class JsonManipulator {
       'content-type': 'application/x-www-form-urlencoded'
     };
     Response response = await post(Config.apiPostOrder,
-        headers: header, body: postOrder.getMap())
+            headers: header, body: postOrder.getMap())
         .timeout(Duration(seconds: Config.connectionTimeout),
         onTimeout: () => null)
         .catchError((onError) => handelException(onError));
@@ -280,7 +281,27 @@ class JsonManipulator {
     }
   }
 
-  Future<bool> reserveTable() {}
+  Future<bool> reserveTable(Reservation reservation) async {
+    bool status = false;
+    try {
+      Response response =
+      await post(Config.apiTableReservation, body: reservation.getMap())
+          .timeout(Duration(seconds: 10), onTimeout: () => null)
+          .catchError((onError) => handelException(onError));
+      bool success = jsonDecode(response.body)['success'];
+      if (response != null) {
+        if (success) {
+          status = true;
+        } else {
+          Map data = jsonDecode(response.body)['data'];
+          messages.add(data['message'].toString());
+        }
+      }
+      return status;
+    } catch (e) {
+      return status;
+    }
+  }
 
   Null handelException(Exception e) {
     exceptions.add(e);
