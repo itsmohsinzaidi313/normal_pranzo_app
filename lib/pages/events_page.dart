@@ -42,23 +42,24 @@ class _EventsViewState extends State<EventsView> {
               child: Column(
                 children: <Widget>[
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Image.network(events[index].image,
                           fit: BoxFit.fill,
-                          width: MediaQuery.of(context).size.width * 0.95,
-                          height: MediaQuery.of(context).size.height * 0.3,
+                          width: MediaQuery.of(context).size.width * 0.92,
+                          height: MediaQuery.of(context).size.height * 0.25,
                           loadingBuilder: (BuildContext context, Widget child,
                               ImageChunkEvent loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
                                     loadingProgress.expectedTotalBytes
-                                : null,
-                          ),
-                        );
-                      })
+                                    : null,
+                              ),
+                            );
+                          })
                     ],
                   ),
                   Row(
@@ -66,9 +67,11 @@ class _EventsViewState extends State<EventsView> {
                     children: <Widget>[
                       Container(
                         padding: EdgeInsets.only(top: 8, left: 8),
-                        child: AppTheme.textWidget(
+                        child: AppTheme.autoTextSizeWidget(
                             '${events[index].name.toUpperCase()}',
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.bold,
+                            minFontSize: 16,
+                            maxFontSize: 21),
                       )
                     ],
                   ),
@@ -77,8 +80,11 @@ class _EventsViewState extends State<EventsView> {
                     children: <Widget>[
                       Container(
                           padding: EdgeInsets.only(top: 8, right: 8),
-                          child: AppTheme.textWidget(
-                              'Date From: ${events[index].dateFrom.substring(0, 10)}')),
+                          child: AppTheme.autoTextSizeWidget(
+                              'From: ${events[index].dateFrom.substring(
+                                  0, 10)}',
+                              minFontSize: 16,
+                              maxFontSize: 21)),
                     ],
                   ),
                   Row(
@@ -86,8 +92,10 @@ class _EventsViewState extends State<EventsView> {
                     children: <Widget>[
                       Container(
                           padding: EdgeInsets.only(top: 8, right: 8),
-                          child: AppTheme.textWidget(
-                              'Date To: ${events[index].dateTo.substring(0, 10)}'))
+                          child: AppTheme.autoTextSizeWidget(
+                              'To: ${events[index].dateTo.substring(0, 10)}',
+                              minFontSize: 16,
+                              maxFontSize: 21))
                     ],
                   ),
                 ],

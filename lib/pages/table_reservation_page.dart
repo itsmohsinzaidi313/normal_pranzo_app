@@ -38,7 +38,7 @@ class _TableReservationViewState extends State<TableReservationView> {
             child: Column(
               children: <Widget>[
                 Center(
-                  heightFactor: 1.3,
+                  heightFactor: 1.1,
                   child: Container(
                     decoration: BoxDecoration(
                         boxShadow: [
@@ -55,9 +55,8 @@ class _TableReservationViewState extends State<TableReservationView> {
                         )),
                     height: MediaQuery
                         .of(context)
-                        .size
-                        .height * 0.59,
-                    width: MediaQuery.of(context).size.width * 0.7,
+                        .size.height * 0.80,
+                    width: MediaQuery.of(context).size.width * 0.92,
                     child: Form(
                       child: Column(
                         children: <Widget>[

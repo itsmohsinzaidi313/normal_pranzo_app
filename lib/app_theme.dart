@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -18,6 +19,19 @@ class AppTheme {
   static Color lightShade = Colors.green[300];
   static Color devajTheme = Color.fromRGBO(130, 9, 63, 1);
 
+  static Widget autoTextSizeWidget(String text,
+      {double fontSize,
+      FontWeight fontWeight,
+      double minFontSize,
+      double maxFontSize}) {
+    return AutoSizeText(
+      text,
+      style: TextStyle(fontSize: fontSize, fontWeight: fontWeight),
+      minFontSize: minFontSize,
+      maxFontSize: maxFontSize,
+    );
+  }
+
   static Future<DateTime> datePicker(BuildContext context) async {
     DateTime dateTime = DateTime.now();
     return showDatePicker(
@@ -25,7 +39,7 @@ class AppTheme {
         initialDate: dateTime,
         firstDate: dateTime,
         lastDate:
-            new DateTime(dateTime.year + 1, dateTime.month, dateTime.day));
+        new DateTime(dateTime.year + 1, dateTime.month, dateTime.day));
   }
 
   static Future<TimeOfDay> timePicker(BuildContext context) async {
@@ -34,12 +48,17 @@ class AppTheme {
 
   static ListTile listTileWidget(String title,
       {Widget leading,
-      Widget trailing,
-      String subtitle = '',
-      bool isThreeLine = false}) {
+        Widget trailing,
+        String subtitle = '',
+        bool isThreeLine = false,
+        double minFontSize,
+        double maxFontSize,
+        FontWeight fontWeight}) {
     return ListTile(
       leading: leading,
-      title: AppTheme.textWidget(title),
+      title: AppTheme.autoTextSizeWidget(title, minFontSize: minFontSize,
+          maxFontSize: maxFontSize,
+          fontWeight: fontWeight),
       subtitle: AppTheme.textWidget(subtitle),
       isThreeLine: isThreeLine,
       trailing: trailing,
@@ -129,7 +148,7 @@ class AppTheme {
             actions: <Widget>[
               FlatButton(
                 child:
-                    Text('OK', style: TextStyle(color: AppTheme.standardShade)),
+                Text('OK', style: TextStyle(color: AppTheme.standardShade)),
                 onPressed: onOKPressed,
               )
             ],
@@ -161,8 +180,7 @@ class AppTheme {
     );
   }
 
-  static AppBar optpAppBarB(
-      {String title, Function onPressed, BuildContext context, int quantity}) {
+  static AppBar optpAppBarB({String title, Function onPressed, BuildContext context, int quantity}) {
     return AppBar(
       centerTitle: true,
       title: Text(title.toUpperCase(),
@@ -183,30 +201,30 @@ class AppTheme {
             children: <Widget>[
               Positioned(
                   child: IconButton(
-                icon: Icon(
-                  Icons.shopping_cart,
-                  size: 50,
-                  color: appThemeColor,
-                ),
-                onPressed: () {
-                  if (Cart.cart.getProductQuantity() >= 1)
-                    Navigator.of(context).push(new MaterialPageRoute(
-                        builder: (BuildContext context) => CartView()));
-                  else
-                    FlutterToast(context).showToast(
-                        child: Container(
-                          padding: EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40),
-                              color: Colors.grey[600]),
-                          child: Text(
-                            'Your cart is empty.',
-                            style: TextStyle(fontSize: 21, color: Colors.white),
-                          ),
-                        ),
-                        toastDuration: Duration(seconds: 3));
-                },
-              )),
+                    icon: Icon(
+                      Icons.shopping_cart,
+                      size: 50,
+                      color: appThemeColor,
+                    ),
+                    onPressed: () {
+                      if (Cart.cart.getProductQuantity() >= 1)
+                        Navigator.of(context).push(new MaterialPageRoute(
+                            builder: (BuildContext context) => CartView()));
+                      else
+                        FlutterToast(context).showToast(
+                            child: Container(
+                              padding: EdgeInsets.all(10.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40),
+                                  color: Colors.grey[600]),
+                              child: Text(
+                                'Your cart is empty.',
+                                style: TextStyle(fontSize: 21, color: Colors.white),
+                              ),
+                            ),
+                            toastDuration: Duration(seconds: 3));
+                    },
+                  )),
             ],
           ),
         ),
@@ -214,12 +232,11 @@ class AppTheme {
     );
   }
 
-  static AppBar optpAppBarC(
-      {String title,
-      Function onPressed,
-      BuildContext context,
-      int quantity,
-      Bloc bloc}) {
+  static AppBar optpAppBarC({String title,
+    Function onPressed,
+    BuildContext context,
+    int quantity,
+    Bloc bloc}) {
     return AppBar(
       centerTitle: true,
       title: Text(title.toUpperCase(),
@@ -240,15 +257,15 @@ class AppTheme {
             children: <Widget>[
               Positioned(
                   child: IconButton(
-                icon: Icon(
-                  Icons.shopping_cart,
-                  size: 50,
-                  color: appThemeColor,
-                ),
-                onPressed: () => Navigator.of(context).push(
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => CartView())),
-              )),
+                    icon: Icon(
+                      Icons.shopping_cart,
+                      size: 50,
+                      color: appThemeColor,
+                    ),
+                    onPressed: () => Navigator.of(context).push(
+                        new MaterialPageRoute(
+                            builder: (BuildContext context) => CartView())),
+                  )),
               Positioned(
                 right: 25,
                 child: Container(
@@ -276,6 +293,7 @@ class AppTheme {
     );
   }
 
+  //
   static Drawer drawerWidget(BuildContext context) {
     return Drawer(
       child: Container(
@@ -286,29 +304,29 @@ class AppTheme {
               decoration: BoxDecoration(color: Colors.white),
               child: Image.asset('images/pranzo_logo2.png'),
             ),
-            AppTheme.listTileWidget('Promotions',
-                trailing: IconButton(
-                  icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: () => Navigator.of(context).push(
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new PromotionsView())),
-                )),
-            AppTheme.listTileWidget('Events',
-                trailing: IconButton(
-                  icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: () => Navigator.of(context).push(
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) => new EventsView())),
-                )),
-            AppTheme.listTileWidget('Table Reservation',
-                trailing: IconButton(
-                  icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: () => Navigator.of(context).push(
-                      new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new TableReservationView())),
-                )),
+
+            GestureDetector(child: AppTheme.listTileWidget(
+                'Promotions', minFontSize: 16, maxFontSize: 18,
+                trailing: Icon(Icons.arrow_forward_ios)), onTap: () =>
+                Navigator.of(context).push(
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                        new PromotionsView())),),
+            GestureDetector(child: AppTheme.listTileWidget(
+                'Events', minFontSize: 16, maxFontSize: 18,
+                trailing: Icon(Icons.arrow_forward_ios)), onTap: () =>
+                Navigator.of(context).push(
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new EventsView())),),
+            GestureDetector(child: AppTheme.listTileWidget(
+              'Table Reservation', minFontSize: 16, maxFontSize: 18,
+              trailing: Icon(Icons.arrow_forward_ios),), onTap: () =>
+                Navigator.of(context).push(
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                        new TableReservationView())),),
+
+
           ],
         ),
       ),

@@ -54,17 +54,17 @@ class _PromotionsViewState extends State<PromotionsView> {
               child: Column(
                 children: <Widget>[
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Image.network(promotions[index].image,
                           fit: BoxFit.fill,
                           width: MediaQuery
                               .of(context)
-                              .size
-                              .width * 0.95,
+                              .size.width * 0.92,
                           height: MediaQuery
                               .of(context)
                               .size
-                              .height * 0.3,
+                              .height * 0.25,
                           loadingBuilder: (BuildContext context, Widget child,
                               ImageChunkEvent loadingProgress) {
                             if (loadingProgress == null) return child;
@@ -85,17 +85,21 @@ class _PromotionsViewState extends State<PromotionsView> {
                     children: <Widget>[
                       Container(
                         padding: EdgeInsets.only(top: 8, left: 8),
-                        child: AppTheme.textWidget('${promotions[index].itemName
-                            .toUpperCase()}', fontWeight: FontWeight.bold),)
+                        child: AppTheme.autoTextSizeWidget('${promotions[index]
+                            .itemName
+                            .toUpperCase()}', fontWeight: FontWeight.bold,
+                            minFontSize: 16,
+                            maxFontSize: 21),)
                     ],),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Container(
                           padding: EdgeInsets.only(top: 8, right: 8),
-                          child: AppTheme.textWidget(
-                              'Date From: ${promotions[index].dateFrom
-                                  .substring(0, 10)}')),
+                          child: AppTheme.autoTextSizeWidget(
+                              'From: ${promotions[index].dateFrom
+                                  .substring(0, 10)}', minFontSize: 16,
+                              maxFontSize: 21)),
                     ],
                   ),
                   Row(
@@ -103,9 +107,9 @@ class _PromotionsViewState extends State<PromotionsView> {
                     children: <Widget>[
                       Container(
                           padding: EdgeInsets.only(top: 8, right: 8),
-                          child: AppTheme.textWidget(
-                              'Date To: ${promotions[index].dateTo.substring(
-                                  0, 10)}'))
+                          child: AppTheme.autoTextSizeWidget(
+                              'To: ${promotions[index].dateTo.substring(
+                                  0, 10)}', minFontSize: 16, maxFontSize: 21))
                     ],
                   ),
                 ],
