@@ -5,20 +5,22 @@ import 'package:normalpranzoapp/objects/events.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 class EventsView extends StatefulWidget {
+  List<Event> list = [];
+
+  EventsView(List<Event> value) {
+    this.list.addAll(value);
+  }
+
   @override
-  _EventsViewState createState() => _EventsViewState();
+  _EventsViewState createState() => _EventsViewState(this.list);
 }
 
 class _EventsViewState extends State<EventsView> {
   final List<Event> events = [];
-  _EventsViewState() {
-    JsonManipulator jsonManipulator = new JsonManipulator();
-    jsonManipulator
-        .getEvents()
-        .then((value) => events.addAll(value))
-        .whenComplete(() => setState(() {}));
-  }
 
+  _EventsViewState(List<Event> events) {
+    this.events.addAll(events);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

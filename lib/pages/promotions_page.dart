@@ -4,20 +4,23 @@ import 'package:normalpranzoapp/objects/promotion.dart';
 import '../app_theme.dart';
 
 class PromotionsView extends StatefulWidget {
+  final List<Promotion> list = [];
+
+  PromotionsView(List<Promotion> value) {
+    list.addAll(value);
+  }
+
   @override
-  _PromotionsViewState createState() => _PromotionsViewState(key);
+  _PromotionsViewState createState() => _PromotionsViewState(list);
 }
 
 class _PromotionsViewState extends State<PromotionsView> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<Promotion> promotions = [];
   JsonManipulator jsonManipulator;
-  _PromotionsViewState(key) {
-    jsonManipulator = new JsonManipulator();
-    jsonManipulator
-        .getPromotions()
-        .then((value) => promotions.addAll(value))
-        .whenComplete(() => setState(() {}));
+
+  _PromotionsViewState(List<Promotion> list) {
+    promotions.addAll(list);
   }
 
   @override
@@ -26,7 +29,6 @@ class _PromotionsViewState extends State<PromotionsView> {
       key: _scaffoldKey,
       appBar: AppTheme.optpAppBarA(
         title: 'promotions',
-
         leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
@@ -66,16 +68,15 @@ class _PromotionsViewState extends State<PromotionsView> {
                           loadingBuilder: (BuildContext context, Widget child,
                               ImageChunkEvent loadingProgress) {
                             if (loadingProgress == null) return child;
-                            return Center(
-                              child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes !=
-                                    null
-                                    ? loadingProgress.cumulativeBytesLoaded /
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
                                     loadingProgress.expectedTotalBytes
-                                    : null,
-                              ),
-                            );
-                          })
+                                : null,
+                          ),
+                        );
+                      }),
                     ],
                   ),
                   Row(
@@ -87,8 +88,8 @@ class _PromotionsViewState extends State<PromotionsView> {
                             .itemName
                             .toUpperCase()}', fontWeight: FontWeight.bold,
                             minFontSize: 16,
-                            maxFontSize: 21),)
-                    ],),
+                            maxFontSize: 21))
+                    ]),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[

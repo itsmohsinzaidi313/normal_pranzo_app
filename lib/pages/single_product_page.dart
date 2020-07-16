@@ -23,7 +23,6 @@ class _SingleProductState extends State<SingleProduct> {
 
   _SingleProductState({this.title, this.product});
 
-//  Bloc _bloc = Bloc();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,9 +39,8 @@ class _SingleProductState extends State<SingleProduct> {
               child: Column(
                 children: <Widget>[
                   Container(
-                      child: Image.network(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR167B8MRu2GFSmNq0Q3rSdvFSqIRgGNyDWPw&usqp=CAU',
-                          loadingBuilder: (BuildContext context, Widget child,
+                      child: Image.network(product.image, loadingBuilder:
+                          (BuildContext context, Widget child,
                               ImageChunkEvent loadingProgress) {
                     if (loadingProgress == null) return child;
                     return Center(
@@ -68,7 +66,8 @@ class _SingleProductState extends State<SingleProduct> {
                         Expanded(child: SizedBox()),
                         IconButton(
                           icon: Icon(Icons.remove),
-                          onPressed: onLess,),
+                          onPressed: onLess,
+                        ),
                         AppTheme.autoTextSizeWidget(product.quantity.toString(),
                             fontColor: AppTheme.appThemeColor,
                             fontWeight: FontWeight.bold),

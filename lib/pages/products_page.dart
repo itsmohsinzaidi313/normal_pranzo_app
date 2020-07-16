@@ -44,9 +44,7 @@ class _ProductsViewState extends State<ProductsView> {
   }
 
   Widget getProductWidget(BuildContext context, int index) {
-    Image image = Image.network(
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTsphabW9FdQml5MQm_Z2lM8lDYBcPe-GEocA&usqp=CAU',
-        loadingBuilder: (BuildContext context, Widget child,
+    Image image = Image.network(list[index].image, loadingBuilder: (BuildContext context, Widget child,
             ImageChunkEvent loadingProgress) {
       if (loadingProgress == null) return child;
       return Center(

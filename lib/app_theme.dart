@@ -42,7 +42,7 @@ class AppTheme {
         initialDate: dateTime,
         firstDate: dateTime,
         lastDate:
-        new DateTime(dateTime.year + 1, dateTime.month, dateTime.day));
+            new DateTime(dateTime.year + 1, dateTime.month, dateTime.day));
   }
 
   static Future<TimeOfDay> timePicker(BuildContext context) async {
@@ -59,7 +59,8 @@ class AppTheme {
         FontWeight fontWeight}) {
     return ListTile(
       leading: leading,
-      title: AppTheme.autoTextSizeWidget(title, minFontSize: minFontSize,
+      title: AppTheme.autoTextSizeWidget(title,
+          minFontSize: minFontSize,
           maxFontSize: maxFontSize,
           fontWeight: fontWeight),
       subtitle: AppTheme.textWidget(subtitle),
@@ -183,7 +184,8 @@ class AppTheme {
     );
   }
 
-  static AppBar optpAppBarB({String title, Function onPressed, BuildContext context, int quantity}) {
+  static AppBar optpAppBarB(
+      {String title, Function onPressed, BuildContext context, int quantity}) {
     return AppBar(
       centerTitle: true,
       title: autoTextSizeWidget(title.toUpperCase(),
@@ -221,7 +223,8 @@ class AppTheme {
                                   color: Colors.grey[600]),
                               child: Text(
                                 'Your cart is empty.',
-                                style: TextStyle(fontSize: 21, color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: 21, color: Colors.white),
                               ),
                             ),
                             toastDuration: Duration(seconds: 3));
@@ -264,9 +267,10 @@ class AppTheme {
                       size: 50,
                       color: appThemeColor,
                     ),
-                    onPressed: () => Navigator.of(context).push(
-                        new MaterialPageRoute(
-                            builder: (BuildContext context) => CartView())),
+                    onPressed: () =>
+                        Navigator.of(context).push(
+                            new MaterialPageRoute(
+                                builder: (BuildContext context) => CartView())),
                   )),
               Positioned(
                 right: 25,
@@ -296,36 +300,57 @@ class AppTheme {
   }
 
   static Drawer drawerWidget(BuildContext context) {
+    JsonManipulator jsonManipulator = new JsonManipulator();
+
     return Drawer(
       child: Container(
+        color: Colors.grey[300],
         child: ListView(
           children: <Widget>[
             DrawerHeader(
-              padding: EdgeInsets.only(top: 0, left: 5, right: 5),
-              decoration: BoxDecoration(color: Colors.white),
-              child: Image.asset('images/pranzo_logo2.png'),
-            ),
-
-            GestureDetector(child: AppTheme.listTileWidget(
-                'Promotions', minFontSize: 16, maxFontSize: 18,
-                trailing: Icon(Icons.arrow_forward_ios)), onTap: () =>
-                Navigator.of(context).push(
-                    new MaterialPageRoute(
+                padding: EdgeInsets.only(top: 0, left: 5, right: 5),
+                decoration: BoxDecoration(color: Colors.white),
+                child: Image.asset('images/pranzo_logo2.png')),
+            GestureDetector(
+                child: AppTheme.listTileWidget('Promotions',
+                    minFontSize: 16,
+                    maxFontSize: 18,
+                    trailing: Icon(Icons.arrow_forward_ios)),
+                onTap: () {
+                  ProgressDialog progressDialog = showProgressDialog(context);
+                  progressDialog.show();
+                  jsonManipulator.getPromotions().then((value) {
+                    progressDialog.hide();
+                    Navigator.of(context).push(new MaterialPageRoute(
                         builder: (BuildContext context) =>
-                        new PromotionsView()))),
-
-            GestureDetector(child: AppTheme.listTileWidget(
-                'Events', minFontSize: 16, maxFontSize: 18,
-                trailing: Icon(Icons.arrow_forward_ios)), onTap: () =>
-                Navigator.of(context).push(
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new EventsView()))),
-
-            GestureDetector(child: AppTheme.listTileWidget(
-              'Table Reservation', minFontSize: 16, maxFontSize: 18,
-              trailing: Icon(Icons.arrow_forward_ios),), onTap: () =>
-                Navigator.of(context).push(
-                    new MaterialPageRoute(
+                        new PromotionsView(value)));
+                  });
+                }),
+            GestureDetector(
+                child: AppTheme.listTileWidget('Events',
+                    minFontSize: 16,
+                    maxFontSize: 18,
+                    trailing: Icon(Icons.arrow_forward_ios)),
+                onTap: () {
+                  ProgressDialog progressDialog = showProgressDialog(context);
+                  progressDialog.show();
+                  jsonManipulator.getEvents().then((value) {
+                    progressDialog.hide();
+                    Navigator.of(context).push(new MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                        new EventsView(value)));
+                  });
+                  ;
+                }),
+            GestureDetector(
+                child: AppTheme.listTileWidget(
+                  'Table Reservation',
+                  minFontSize: 16,
+                  maxFontSize: 18,
+                  trailing: Icon(Icons.arrow_forward_ios),
+                ),
+                onTap: () =>
+                    Navigator.of(context).push(new MaterialPageRoute(
                         builder: (BuildContext context) =>
                         new TableReservationView()))),
           ],
