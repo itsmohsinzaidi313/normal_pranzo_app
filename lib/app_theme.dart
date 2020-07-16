@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:normalpranzoapp/json_manipulator.dart';
 import 'package:normalpranzoapp/objects/cart.dart';
 import 'package:normalpranzoapp/pages/cart_page.dart';
 import 'package:normalpranzoapp/pages/events_page.dart';
@@ -22,11 +23,13 @@ class AppTheme {
   static Widget autoTextSizeWidget(String text,
       {double fontSize,
       FontWeight fontWeight,
-      double minFontSize,
-      double maxFontSize}) {
+      double minFontSize = 16,
+      double maxFontSize = 16,
+      Color fontColor}) {
     return AutoSizeText(
       text,
-      style: TextStyle(fontSize: fontSize, fontWeight: fontWeight),
+      style: TextStyle(
+          fontSize: fontSize, fontWeight: fontWeight, color: fontColor),
       minFontSize: minFontSize,
       maxFontSize: maxFontSize,
     );
@@ -183,9 +186,8 @@ class AppTheme {
   static AppBar optpAppBarB({String title, Function onPressed, BuildContext context, int quantity}) {
     return AppBar(
       centerTitle: true,
-      title: Text(title.toUpperCase(),
-          style: TextStyle(
-              fontWeight: FontWeight.bold, color: AppTheme.appThemeColor)),
+      title: autoTextSizeWidget(title.toUpperCase(),
+          fontWeight: FontWeight.bold, fontColor: AppTheme.appThemeColor),
       backgroundColor: Colors.white,
       leading: IconButton(
         icon: Icon(
@@ -196,14 +198,14 @@ class AppTheme {
       ),
       actions: <Widget>[
         Container(
-          padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
+          padding: EdgeInsets.only(right: 8, top: 4),
           child: Stack(
             children: <Widget>[
               Positioned(
                   child: IconButton(
                     icon: Icon(
                       Icons.shopping_cart,
-                      size: 50,
+                      size: 35,
                       color: appThemeColor,
                     ),
                     onPressed: () {
@@ -293,7 +295,6 @@ class AppTheme {
     );
   }
 
-  //
   static Drawer drawerWidget(BuildContext context) {
     return Drawer(
       child: Container(
@@ -311,22 +312,22 @@ class AppTheme {
                 Navigator.of(context).push(
                     new MaterialPageRoute(
                         builder: (BuildContext context) =>
-                        new PromotionsView())),),
+                        new PromotionsView()))),
+
             GestureDetector(child: AppTheme.listTileWidget(
                 'Events', minFontSize: 16, maxFontSize: 18,
                 trailing: Icon(Icons.arrow_forward_ios)), onTap: () =>
                 Navigator.of(context).push(
                     new MaterialPageRoute(
-                        builder: (BuildContext context) => new EventsView())),),
+                        builder: (BuildContext context) => new EventsView()))),
+
             GestureDetector(child: AppTheme.listTileWidget(
               'Table Reservation', minFontSize: 16, maxFontSize: 18,
               trailing: Icon(Icons.arrow_forward_ios),), onTap: () =>
                 Navigator.of(context).push(
                     new MaterialPageRoute(
                         builder: (BuildContext context) =>
-                        new TableReservationView())),),
-
-
+                        new TableReservationView()))),
           ],
         ),
       ),

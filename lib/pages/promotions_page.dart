@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:normalpranzoapp/json_manipulator.dart';
 import 'package:normalpranzoapp/objects/promotion.dart';
-import 'package:progress_dialog/progress_dialog.dart';
-
 import '../app_theme.dart';
 
 class PromotionsView extends StatefulWidget {
@@ -13,9 +11,9 @@ class PromotionsView extends StatefulWidget {
 class _PromotionsViewState extends State<PromotionsView> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<Promotion> promotions = [];
-
+  JsonManipulator jsonManipulator;
   _PromotionsViewState(key) {
-    JsonManipulator jsonManipulator = new JsonManipulator();
+    jsonManipulator = new JsonManipulator();
     jsonManipulator
         .getPromotions()
         .then((value) => promotions.addAll(value))

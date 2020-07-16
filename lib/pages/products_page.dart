@@ -68,7 +68,8 @@ class _ProductsViewState extends State<ProductsView> {
                   height: MediaQuery.of(context).size.height * 0.15,
                   child: image),
               Container(
-                child: AppTheme.textWidget('${list[index].name}'),
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: AppTheme.autoTextSizeWidget('${list[index].name}'),
                 padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
               ),
               Expanded(

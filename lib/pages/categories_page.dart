@@ -57,8 +57,11 @@ class _CategoriesViewState extends State<CategoriesView> {
                     );
                   })),
               Container(
-                child: AppTheme.textWidget('${list[index].name}'),
-                padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+                child: AppTheme.autoTextSizeWidget('${list[index].name}'),
+                padding: EdgeInsets.only(
+                  left: 8,
+                  right: 8,
+                ),
               ),
               Expanded(
                 child: SizedBox(),

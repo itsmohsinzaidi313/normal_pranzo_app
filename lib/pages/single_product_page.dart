@@ -60,17 +60,16 @@ class _SingleProductState extends State<SingleProduct> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                            child: Expanded(
-                                child: AppTheme.textWidget(
-                                    product.name.toUpperCase(),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 28))),
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            child: AppTheme.autoTextSizeWidget(
+                                product.name.toUpperCase(),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 28)),
                         Expanded(child: SizedBox()),
                         IconButton(
                           icon: Icon(Icons.remove),
-                          onPressed: onLess,
-                        ),
-                        AppTheme.textWidget(product.quantity.toString(),
+                          onPressed: onLess,),
+                        AppTheme.autoTextSizeWidget(product.quantity.toString(),
                             fontColor: AppTheme.appThemeColor,
                             fontWeight: FontWeight.bold),
                         IconButton(
@@ -84,7 +83,7 @@ class _SingleProductState extends State<SingleProduct> {
                     width: MediaQuery.of(context).size.width * 0.7,
                     child: Row(
                       children: <Widget>[
-                        AppTheme.textWidget(
+                        AppTheme.autoTextSizeWidget(
                             'Rs.${(product.quantity * product.price).toString()}',
                             fontWeight: FontWeight.bold,
                             fontColor: AppTheme.appThemeColor),
@@ -92,8 +91,10 @@ class _SingleProductState extends State<SingleProduct> {
                           child: SizedBox(),
                         ),
                         FlatButton(
-                          child: AppTheme.textWidget('ADD TO CART',
-                              fontColor: Colors.white),
+                          child: AppTheme.autoTextSizeWidget('Add To Cart',
+                              fontColor: Colors.white,
+                              minFontSize: 16,
+                              maxFontSize: 18),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(21)),
                           color: AppTheme.appThemeColor,

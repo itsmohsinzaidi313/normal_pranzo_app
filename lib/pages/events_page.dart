@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:normalpranzoapp/app_theme.dart';
 import 'package:normalpranzoapp/json_manipulator.dart';
 import 'package:normalpranzoapp/objects/events.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class EventsView extends StatefulWidget {
   @override
@@ -10,7 +11,6 @@ class EventsView extends StatefulWidget {
 
 class _EventsViewState extends State<EventsView> {
   final List<Event> events = [];
-
   _EventsViewState() {
     JsonManipulator jsonManipulator = new JsonManipulator();
     jsonManipulator
