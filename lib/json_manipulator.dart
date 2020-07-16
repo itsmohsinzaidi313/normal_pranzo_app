@@ -58,6 +58,7 @@ class JsonManipulator {
             categoriesJson.forEach((categoryJson) {
               Category category = new Category();
               category.categoryId = categoryJson['categoryId'];
+//              category.image = categoryJson['image'];
               category.isActive = categoryJson['isActive'];
               category.name = categoryJson['name'];
               category.products = [];

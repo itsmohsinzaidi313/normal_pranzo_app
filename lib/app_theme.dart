@@ -177,9 +177,8 @@ class AppTheme {
     return AppBar(
       leading: leading,
       centerTitle: true,
-      title: Text(title.toUpperCase(),
-          style: TextStyle(
-              fontWeight: FontWeight.bold, color: AppTheme.appThemeColor)),
+      title: autoTextSizeWidget(title.toUpperCase(),
+          fontWeight: FontWeight.bold, fontColor: AppTheme.appThemeColor),
       backgroundColor: Colors.white,
     );
   }

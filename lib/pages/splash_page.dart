@@ -7,6 +7,7 @@ import 'package:normalpranzoapp/config.dart';
 import 'package:normalpranzoapp/json_manipulator.dart';
 import 'package:normalpranzoapp/objects/cart.dart';
 import 'package:normalpranzoapp/pages/dashboard_page.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SplashView extends StatefulWidget {
   @override
@@ -65,11 +66,21 @@ class _SplashViewState extends State<SplashView> {
       resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
       body: Container(
-        child: Center(
-          heightFactor: 4,
-          child: Image(
-            image: AssetImage('images/pranzo_logo2.png'),
-          ),
+        child: Column(
+          children: <Widget>[
+            Center(
+              heightFactor: 4,
+              child: Image(
+                image: AssetImage('images/pranzo_logo2.png'),
+              ),
+            ),
+            Center(
+              heightFactor: 0,
+              child: SpinKitDualRing(
+                color: AppTheme.appThemeColor,
+              ),
+            )
+          ],
         ),
       ),
     );

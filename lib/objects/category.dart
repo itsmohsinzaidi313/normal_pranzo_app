@@ -6,6 +6,14 @@ class Category {
   String _name;
   String _status;
   String _isActive;
+  String _image;
+
+  String get image => _image;
+
+  set image(String value) {
+    _image = value;
+  }
+
   List<Product> _products = [];
   List<Deal> _deals = [];
 

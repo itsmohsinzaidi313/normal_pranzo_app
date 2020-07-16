@@ -105,7 +105,7 @@ class _DashBoardViewState extends State<DashBoardView> {
               )),
           Container(
               child: Center(
-                  child: AppTheme.textWidget('BRANCHES',
+                  child: AppTheme.autoTextSizeWidget('BRANCHES',
                       fontWeight: FontWeight.bold,
                       fontColor: AppTheme.appThemeColor))),
           Container(
