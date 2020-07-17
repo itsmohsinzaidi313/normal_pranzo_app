@@ -29,7 +29,7 @@ class _RegisterViewState extends State<RegisterView> {
             child: Column(
               children: <Widget>[
                 Center(
-                  heightFactor: 1.5,
+                  heightFactor: 1.1,
                   child: Container(
                     decoration: BoxDecoration(
                         boxShadow: [
@@ -44,8 +44,8 @@ class _RegisterViewState extends State<RegisterView> {
                           width: 3,
                           color: AppTheme.appThemeColor,
                         )),
-                    height: MediaQuery.of(context).size.height * 0.54,
-                    width: MediaQuery.of(context).size.width * 0.7,
+                    height: MediaQuery.of(context).size.height * 0.75,
+                    width: MediaQuery.of(context).size.width * 0.8,
                     child: Form(
                       child: Column(
                         children: <Widget>[
