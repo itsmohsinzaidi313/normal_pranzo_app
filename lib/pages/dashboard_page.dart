@@ -99,7 +99,7 @@ class _DashBoardViewState extends State<DashBoardView> {
               fit: BoxFit.fitWidth,
             ),
             ListTile(
-              title: AppTheme.textWidget('${restaurants[index].name}'),
+              title: AppTheme.autoTextSizeWidget('${restaurants[index].name}'),
             ),
           ]),
         ),

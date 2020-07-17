@@ -22,7 +22,15 @@ class _RegisterViewState extends State<RegisterView> {
     progressDialog.hide();
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppTheme.optpAppBarA(title: 'pranzo'),
+      appBar: AppTheme.optpAppBarA(
+          title: 'pranzo',
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.grey,
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+          )),
       body: Stack(
         children: <Widget>[
           SingleChildScrollView(

@@ -35,7 +35,15 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     progressDialog = AppTheme.showProgressDialog(context);
     return Scaffold(
-      appBar: AppTheme.optpAppBarA(title: 'pranzo'),
+      appBar: AppTheme.optpAppBarA(
+          title: 'pranzo',
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.grey,
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+          )),
       body: Container(
         child: Column(
           children: <Widget>[
@@ -106,9 +114,9 @@ class _LoginViewState extends State<LoginView> {
                               child: AppTheme.textWidget('Login',
                                   fontSize: 16, fontColor: Colors.white),
                               onPressed: () {
-                                progressDialog.show();
                                 if (formKey.currentState.validate()) {
                                   formKey.currentState.save();
+                                  progressDialog.show();
                                   JsonManipulator jsonManipulator =
                                   new JsonManipulator();
                                   jsonManipulator

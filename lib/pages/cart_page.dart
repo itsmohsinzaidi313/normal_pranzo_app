@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:normalpranzoapp/app_theme.dart';
 import 'package:normalpranzoapp/objects/cart.dart';
 import 'package:normalpranzoapp/objects/product.dart';
-import 'package:normalpranzoapp/pages/login_page.dart';
+import 'package:normalpranzoapp/pages/signin_page.dart';
 
 class CartView extends StatefulWidget {
   @override
@@ -41,8 +41,7 @@ class _CartViewState extends State<CartView> {
               color: Colors.grey,
             ),
             onPressed: () => Navigator.of(context).pop(),
-          ),
-          quantity: Cart.cart.getProductQuantity()),
+          )),
       body: ListView.builder(
           shrinkWrap: true,
           itemCount: listProducts.length,
