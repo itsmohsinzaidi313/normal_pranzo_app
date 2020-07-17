@@ -3,92 +3,52 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:normalpranzoapp/app_theme.dart';
 import 'package:normalpranzoapp/config.dart';
+import 'package:normalpranzoapp/objects/cart.dart';
 import 'package:normalpranzoapp/objects/deal.dart';
 import 'package:normalpranzoapp/objects/restaurant.dart';
 import 'package:normalpranzoapp/pages/categories_page.dart';
 
 class DashBoardView extends StatefulWidget {
-  List<Restaurant> list;
+  List<Restaurant> restaurants;
 
-  DashBoardView({this.list});
+  DashBoardView({this.restaurants});
 
   @override
-  _DashBoardViewState createState() => _DashBoardViewState(list: list);
+  _DashBoardViewState createState() =>
+      _DashBoardViewState(restaurants: restaurants);
 }
 
 class _DashBoardViewState extends State<DashBoardView> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Restaurant> list;
-  List<Deal> hotDeals = [];
+  List<Restaurant> restaurants;
+  List<Image> hotDealsImages = [];
   int quantity = 0;
 
-  _DashBoardViewState({this.list}) {
-    this.list.forEach((element) {
-      hotDeals.addAll(element.deals);
+  _DashBoardViewState({this.restaurants}) {
+    this.restaurants.forEach((element) {
+      element.hotDeals.forEach((hotDeal) {
+        hotDealsImages.add(
+          Image.network(hotDeal.image, fit: BoxFit.fill, loadingBuilder:
+              (BuildContext context, Widget child,
+                  ImageChunkEvent loadingProgress) {
+            if (loadingProgress == null) return child;
+            return Center(
+              child: CircularProgressIndicator(
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes
+                    : null,
+              ),
+            );
+          }),
+        );
+      });
     });
   }
 
-  List<Image> images = [
-    Image.network(
-        'https://www.refrigeratedfrozenfood.com/ext/resources/NEW_RD_Website/DefaultImages/default-pizza.jpg?1430942592',
-        fit: BoxFit.fill, loadingBuilder: (BuildContext context, Widget child,
-            ImageChunkEvent loadingProgress) {
-      if (loadingProgress == null) return child;
-      return Center(
-        child: CircularProgressIndicator(
-          value: loadingProgress.expectedTotalBytes != null
-              ? loadingProgress.cumulativeBytesLoaded /
-                  loadingProgress.expectedTotalBytes
-              : null,
-        ),
-      );
-    }),
-    Image.network(
-        'https://cdn.shopify.com/s/files/1/1405/0664/products/4791207-9790062099-Pizza1_450x.jpg?v=1469649640',
-        fit: BoxFit.fill, loadingBuilder: (BuildContext context, Widget child,
-            ImageChunkEvent loadingProgress) {
-      if (loadingProgress == null) return child;
-      return Center(
-        child: CircularProgressIndicator(
-          value: loadingProgress.expectedTotalBytes != null
-              ? loadingProgress.cumulativeBytesLoaded /
-                  loadingProgress.expectedTotalBytes
-              : null,
-        ),
-      );
-    }),
-    Image.network(
-        'https://www.24newshd.tv/uploads/facebook_post_images/2020-04-03/facebook_post_image_1585907355.jpg',
-        fit: BoxFit.fill, loadingBuilder: (BuildContext context, Widget child,
-            ImageChunkEvent loadingProgress) {
-      if (loadingProgress == null) return child;
-      return Center(
-        child: CircularProgressIndicator(
-          value: loadingProgress.expectedTotalBytes != null
-              ? loadingProgress.cumulativeBytesLoaded /
-                  loadingProgress.expectedTotalBytes
-              : null,
-        ),
-      );
-    }),
-    Image.network(
-        'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&w=1000&q=80',
-        fit: BoxFit.fill, loadingBuilder: (BuildContext context, Widget child,
-            ImageChunkEvent loadingProgress) {
-      if (loadingProgress == null) return child;
-      return Center(
-        child: CircularProgressIndicator(
-          value: loadingProgress.expectedTotalBytes != null
-              ? loadingProgress.cumulativeBytesLoaded /
-                  loadingProgress.expectedTotalBytes
-              : null,
-        ),
-      );
-    }),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    Cart.cart = new Cart();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppTheme.optpAppBarB(
@@ -101,7 +61,7 @@ class _DashBoardViewState extends State<DashBoardView> {
           Container(
               height: MediaQuery.of(context).size.height * 0.5,
               child: Carousel(
-                images: images,
+                images: hotDealsImages,
               )),
           Container(
               child: Center(
@@ -112,7 +72,7 @@ class _DashBoardViewState extends State<DashBoardView> {
               width: Config.deviceDisplayWidth,
               child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: list.length,
+                  itemCount: restaurants.length,
                   itemBuilder: (BuildContext context, int index) =>
                       getRestaurant2Widget(context, index)))
         ],
@@ -127,19 +87,25 @@ class _DashBoardViewState extends State<DashBoardView> {
         child: Card(
           child: Column(children: <Widget>[
             Image.network(
-              list[index].image,
-              height: MediaQuery.of(context).size.height * 0.1,
-              width: MediaQuery.of(context).size.width,
+              restaurants[index].image,
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height * 0.1,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
               fit: BoxFit.fitWidth,
             ),
             ListTile(
-              title: AppTheme.textWidget('${list[index].name}'),
+              title: AppTheme.textWidget('${restaurants[index].name}'),
             ),
           ]),
         ),
         onTap: () => Navigator.of(context).push(new MaterialPageRoute(
             builder: (BuildContext context) => new CategoriesView(
-                  list: list[index].categories,
+              list: restaurants[index].categories,
                 ))),
       ),
     );
@@ -154,21 +120,21 @@ class _DashBoardViewState extends State<DashBoardView> {
             children: <Widget>[
               Container(
                   height: MediaQuery.of(context).size.height * 0.15,
-                  child: Image.network(list[index].image, loadingBuilder:
+                  child: Image.network(restaurants[index].image, loadingBuilder:
                       (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
+                      ImageChunkEvent loadingProgress) {
                     if (loadingProgress == null) return child;
                     return Center(
                       child: CircularProgressIndicator(
                         value: loadingProgress.expectedTotalBytes != null
                             ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes
+                            loadingProgress.expectedTotalBytes
                             : null,
                       ),
                     );
                   })),
               Container(
-                child: AppTheme.textWidget('${list[index].name}'),
+                child: AppTheme.textWidget('${restaurants[index].name}'),
                 padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
               ),
               Expanded(
@@ -186,7 +152,7 @@ class _DashBoardViewState extends State<DashBoardView> {
       ),
       onTap: () => Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new CategoriesView(
-                list: list[index].categories,
+            list: restaurants[index].categories,
               ))),
     );
   }

@@ -22,11 +22,12 @@ class _SplashViewState extends State<SplashView> {
       if (value != null) {
         Navigator.of(context).pushReplacement(new MaterialPageRoute(
             builder: (context) => DashBoardView(
-                  list: value,
+                  restaurants: value,
                 )));
       } else {
-        AppTheme.showAlertDialogCustom(
-            context, 'Error', jsonManipulator.messages[0], [
+        String message =
+            jsonManipulator.messages == null ? "" : jsonManipulator.messages[0];
+        AppTheme.showAlertDialogCustom(context, 'Error', message, [
           FlatButton(
             child: Text('OK', style: TextStyle(color: AppTheme.standardShade)),
             onPressed: () => exit(0),
@@ -39,7 +40,7 @@ class _SplashViewState extends State<SplashView> {
                 Navigator.of(context).pushAndRemoveUntil(
                     new MaterialPageRoute(
                         builder: (context) => new SplashView()),
-                    (route) => false);
+                        (route) => false);
               });
             },
           ),
@@ -65,23 +66,32 @@ class _SplashViewState extends State<SplashView> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            Center(
-              heightFactor: 4,
+      body: Stack(
+        children: <Widget>[
+          Positioned(
+            child: Center(
+              heightFactor: 5,
               child: Image(
                 image: AssetImage('images/pranzo_logo2.png'),
               ),
             ),
-            Center(
-              heightFactor: 0,
+          ),
+          Positioned(
+            top: MediaQuery
+                .of(context)
+                .size
+                .height / 1.5,
+            left: MediaQuery
+                .of(context)
+                .size
+                .width / 2.4,
+            child: Center(
               child: SpinKitDualRing(
                 color: AppTheme.appThemeColor,
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

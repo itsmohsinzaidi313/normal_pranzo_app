@@ -12,6 +12,13 @@ class Restaurant {
   String _image;
   List<Category> _categories = [];
   List<Deal> _hotDeals = [];
+
+  List<Deal> get hotDeals => _hotDeals;
+
+  set hotDeals(List<Deal> value) {
+    _hotDeals = value;
+  }
+
   List<Promotion> _promotions = [];
 
   List<Promotion> get promotions => _promotions;

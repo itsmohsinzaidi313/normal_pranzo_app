@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:normalpranzoapp/app_theme.dart';
+import 'package:normalpranzoapp/objects/cart.dart';
 import 'package:normalpranzoapp/objects/category.dart';
 import 'package:normalpranzoapp/pages/products_page.dart';
 

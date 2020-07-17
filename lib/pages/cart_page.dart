@@ -78,23 +78,18 @@ class _CartViewState extends State<CartView> {
             Positioned(
               top: 0,
               right: 0,
-              child: Container(
-                color: AppTheme.appThemeColor,
-                height: MediaQuery.of(context).size.height * 0.05,
-                width: MediaQuery.of(context).size.width * 0.08,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.close,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      Cart.cart.remove(product: listProducts[index]);
-                      if (Cart.cart.getProductQuantity() == 0)
-                        Navigator.of(context).pop();
-                    });
-                  },
+              child: IconButton(
+                icon: Icon(
+                  Icons.close,
+                  color: AppTheme.appThemeColor,
                 ),
+                onPressed: () {
+                  setState(() {
+                    Cart.cart.remove(product: listProducts[index]);
+                    if (Cart.cart.getProductQuantity() == 0)
+                      Navigator.of(context).pop();
+                  });
+                },
               ),
             ),
             Positioned(

@@ -5,8 +5,8 @@ import 'package:normalpranzoapp/objects/product.dart';
 import 'package:normalpranzoapp/pages/single_product_page.dart';
 
 class ProductsView extends StatefulWidget {
-  List<Product> list;
-  String title;
+  final List<Product> list;
+  final String title;
 
   ProductsView({this.list, this.title});
 
@@ -18,6 +18,7 @@ class ProductsView extends StatefulWidget {
 class _ProductsViewState extends State<ProductsView> {
   List<Product> list;
   String title;
+
   int quantity = 0;
 
   _ProductsViewState({this.list, this.title});
@@ -29,7 +30,6 @@ class _ProductsViewState extends State<ProductsView> {
 
   @override
   Widget build(BuildContext context) {
-    Cart.cart = new Cart();
     return Scaffold(
       appBar: AppTheme.optpAppBarB(
           title: title,

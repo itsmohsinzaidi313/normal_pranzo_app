@@ -104,10 +104,9 @@ class JsonManipulator {
                 deal.dealItems.add(dealItem);
               });
               if (dealsJson[i]['isHotDeal'] == 1) {
-                restaurant.deals.add(deal);
-                deals.add(deal);
+                restaurant.hotDeals.add(deal);
               } else {
-                deals.add(deal);
+                restaurant.deals.add(deal);
               }
             }
 //            dealsJson.forEach((dealJson) {
