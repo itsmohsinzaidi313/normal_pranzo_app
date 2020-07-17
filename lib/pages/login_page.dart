@@ -40,9 +40,9 @@ class _LoginViewState extends State<LoginView> {
         child: Column(
           children: <Widget>[
             Center(
-              heightFactor: 1.5,
+              heightFactor: 1.1,
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.4,
+                height: MediaQuery.of(context).size.height * 0.5,
                 width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
                     boxShadow: [
@@ -142,6 +142,8 @@ class _LoginViewState extends State<LoginView> {
                                   });
 //                                  Config.username = user;
 //                                  Config.password = key;
+                                } else {
+                                  progressDialog.hide();
                                 }
                               })),
                       SizedBox(
