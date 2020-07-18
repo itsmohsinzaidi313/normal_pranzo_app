@@ -4,27 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:normalpranzoapp/app_theme.dart';
 import 'package:normalpranzoapp/config.dart';
 import 'package:normalpranzoapp/objects/cart.dart';
-import 'package:normalpranzoapp/objects/deal.dart';
 import 'package:normalpranzoapp/objects/restaurant.dart';
 import 'package:normalpranzoapp/pages/categories_page.dart';
 
 class DashBoardView extends StatefulWidget {
-  List<Restaurant> restaurants;
+  final List<Restaurant> restaurants = [];
 
-  DashBoardView({this.restaurants});
+  DashBoardView(List<Restaurant> restaurants) {
+    this.restaurants.addAll(restaurants);
+  }
 
   @override
-  _DashBoardViewState createState() =>
-      _DashBoardViewState(restaurants: restaurants);
+  _DashBoardViewState createState() => _DashBoardViewState(restaurants);
 }
 
 class _DashBoardViewState extends State<DashBoardView> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Restaurant> restaurants;
+  final List<Restaurant> restaurants = [];
   List<Image> hotDealsImages = [];
   int quantity = 0;
 
-  _DashBoardViewState({this.restaurants}) {
+  _DashBoardViewState(List<Restaurant> restaurants) {
+    this.restaurants.addAll(restaurants);
     this.restaurants.forEach((element) {
       element.hotDeals.forEach((hotDeal) {
         hotDealsImages.add(

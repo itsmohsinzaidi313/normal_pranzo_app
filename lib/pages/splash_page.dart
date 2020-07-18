@@ -18,11 +18,11 @@ class _SplashViewState extends State<SplashView> {
   navigateToLogin() {
     Cart.cart = new Cart();
     JsonManipulator jsonManipulator = JsonManipulator();
-    jsonManipulator.getRestaurants().then((value) {
-      if (value != null) {
+    jsonManipulator.getRestaurants().then((restaurants) {
+      if (restaurants != null) {
         Navigator.of(context).pushReplacement(new MaterialPageRoute(
             builder: (context) => DashBoardView(
-                  restaurants: value,
+                  restaurants,
                 )));
       } else {
         String message =

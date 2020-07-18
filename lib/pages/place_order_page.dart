@@ -145,7 +145,6 @@ class _PlaceOrderViewState extends State<PlaceOrderView> {
                                                         new MaterialPageRoute(
                                                             builder: (context) =>
                                                                 DashBoardView(
-                                                                  restaurants:
                                                                       restaurants,
                                                                 )),
                                                         (route) => false));
