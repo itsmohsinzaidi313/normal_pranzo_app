@@ -39,19 +39,20 @@ class _SingleProductState extends State<SingleProduct> {
               child: Column(
                 children: <Widget>[
                   Container(
+                      padding: EdgeInsets.only(top: 10),
                       child: Image.network(product.image, loadingBuilder:
                           (BuildContext context, Widget child,
                               ImageChunkEvent loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes
-                            : null,
-                      ),
-                    );
-                  })),
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes
+                                : null,
+                          ),
+                        );
+                      })),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.7,
                     child: Row(

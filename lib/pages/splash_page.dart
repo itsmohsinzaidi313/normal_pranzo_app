@@ -77,17 +77,11 @@ class _SplashViewState extends State<SplashView> {
             ),
           ),
           Positioned(
-            top: MediaQuery
-                .of(context)
-                .size
-                .height / 1.5,
-            left: MediaQuery
-                .of(context)
-                .size
-                .width / 2.4,
+            top: MediaQuery.of(context).size.height / 1.7,
+            left: MediaQuery.of(context).size.width / 2.3,
             child: Center(
-              child: SpinKitDualRing(
-                color: AppTheme.appThemeColor,
+              child: SpinKitPulse(
+                color: AppTheme.appThemeColor2,
               ),
             ),
           ),

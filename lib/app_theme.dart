@@ -15,6 +15,7 @@ import 'bloc/bloc.dart';
 
 class AppTheme {
   static const Color appThemeColor = Color.fromARGB(255, 196, 16, 1);
+  static const Color appThemeColor2 = Color.fromARGB(255, 254, 145, 42);
   static Color darkShade = Colors.green[600];
   static Color standardShade = Colors.green;
   static Color lightShade = Colors.green[300];

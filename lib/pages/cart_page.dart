@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:normalpranzoapp/app_theme.dart';
 import 'package:normalpranzoapp/objects/cart.dart';
 import 'package:normalpranzoapp/objects/product.dart';
-import 'package:normalpranzoapp/pages/signin_page.dart';
+import 'package:normalpranzoapp/pages/signIn_page.dart';
 
 class CartView extends StatefulWidget {
   @override
@@ -59,7 +59,7 @@ class _CartViewState extends State<CartView> {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () => Navigator.of(context).push(new MaterialPageRoute(
-                builder: (context) => new LoginView(
+                builder: (context) => new SignInView(
                       list: listProducts,
                     ))),
           )

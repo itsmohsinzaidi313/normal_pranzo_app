@@ -6,12 +6,12 @@ import 'package:progress_dialog/progress_dialog.dart';
 
 import '../app_theme.dart';
 
-class RegisterView extends StatefulWidget {
+class SignUpView extends StatefulWidget {
   @override
-  _RegisterViewState createState() => _RegisterViewState();
+  _SignUpViewState createState() => _SignUpViewState();
 }
 
-class _RegisterViewState extends State<RegisterView> {
+class _SignUpViewState extends State<SignUpView> {
   final formKey = GlobalKey<FormState>();
   ProgressDialog progressDialog;
   String name, contact, add1, add2, password;
@@ -34,11 +34,14 @@ class _RegisterViewState extends State<RegisterView> {
       body: Stack(
         children: <Widget>[
           SingleChildScrollView(
-            child: Column(
+            child: Wrap(
               children: <Widget>[
                 Center(
                   heightFactor: 1.1,
                   child: Container(
+                    padding: EdgeInsets.only(bottom: 30),
+//                    height: MediaQuery.of(context).size.height * 0.75,
+                    width: MediaQuery.of(context).size.width * 0.8,
                     decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -52,8 +55,6 @@ class _RegisterViewState extends State<RegisterView> {
                           width: 3,
                           color: AppTheme.appThemeColor,
                         )),
-                    height: MediaQuery.of(context).size.height * 0.75,
-                    width: MediaQuery.of(context).size.width * 0.8,
                     child: Form(
                       child: Column(
                         children: <Widget>[
@@ -80,7 +81,7 @@ class _RegisterViewState extends State<RegisterView> {
                                         hintText: 'Your Name',
                                         icon: Icon(Icons.person)),
                                     validator: (value) =>
-                                        value.isEmpty ? "Required" : null,
+                                    value.isEmpty ? "Required" : null,
                                     onSaved: (value) => name = value,
                                   ),
                                   TextFormField(
@@ -88,7 +89,7 @@ class _RegisterViewState extends State<RegisterView> {
                                         hintText: 'Mobile #',
                                         icon: Icon(Icons.phone)),
                                     validator: (value) =>
-                                        value.isEmpty ? 'Required' : null,
+                                    value.isEmpty ? 'Required' : null,
                                     onSaved: (value) => contact = value,
                                   ),
                                   TextFormField(
@@ -104,7 +105,7 @@ class _RegisterViewState extends State<RegisterView> {
                                         hintText: 'Payment Address',
                                         icon: Icon(Icons.location_city)),
                                     validator: (value) =>
-                                        value.isEmpty ? "Required" : null,
+                                    value.isEmpty ? "Required" : null,
                                     onSaved: (value) => add2 = value,
                                   ),
                                   TextFormField(
@@ -112,7 +113,7 @@ class _RegisterViewState extends State<RegisterView> {
                                         hintText: 'Password',
                                         icon: Icon(Icons.vpn_key)),
                                     validator: (value) =>
-                                        value.isEmpty ? "Required" : null,
+                                    value.isEmpty ? "Required" : null,
                                     onSaved: (value) => password = value,
                                   ),
                                 ],
@@ -136,7 +137,8 @@ class _RegisterViewState extends State<RegisterView> {
                                       customer.shippingAddress = add1;
                                       customer.paymentAddress = add2;
                                       customer.password = password;
-                                      JsonManipulator jsonManipulator = new JsonManipulator();
+                                      JsonManipulator jsonManipulator =
+                                      new JsonManipulator();
                                       jsonManipulator
                                           .signUp(customer)
                                           .then((value) {
