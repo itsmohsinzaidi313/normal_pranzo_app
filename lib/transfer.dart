@@ -1,4 +1,4 @@
-import 'objects/customer.dart';
+import 'package:normalpranzoapp/models/customer.dart';
 
 class Transfer {
   static Customer customer;

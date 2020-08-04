@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:normalpranzoapp/app_theme.dart';
-import 'package:normalpranzoapp/json_manipulator.dart';
-import 'package:normalpranzoapp/objects/events.dart';
-import 'package:progress_dialog/progress_dialog.dart';
+import 'package:normalpranzoapp/models/events.dart';
 
 class EventsView extends StatefulWidget {
-  List<Event> list = [];
+  final List<Event> list = [];
 
   EventsView(List<Event> value) {
     this.list.addAll(value);
@@ -52,16 +50,16 @@ class _EventsViewState extends State<EventsView> {
                           height: MediaQuery.of(context).size.height * 0.25,
                           loadingBuilder: (BuildContext context, Widget child,
                               ImageChunkEvent loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(
-                              child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded /
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
                                     loadingProgress.expectedTotalBytes
-                                    : null,
-                              ),
-                            );
-                          })
+                                : null,
+                          ),
+                        );
+                      })
                     ],
                   ),
                   Row(
@@ -83,8 +81,7 @@ class _EventsViewState extends State<EventsView> {
                       Container(
                           padding: EdgeInsets.only(top: 8, right: 8),
                           child: AppTheme.autoTextSizeWidget(
-                              'From: ${events[index].dateFrom.substring(
-                                  0, 10)}',
+                              'From: ${events[index].dateFrom.substring(0, 10)}',
                               minFontSize: 16,
                               maxFontSize: 21)),
                     ],

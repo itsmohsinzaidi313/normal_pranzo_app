@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:normalpranzoapp/app_theme.dart';
 import 'package:normalpranzoapp/config.dart';
 import 'package:normalpranzoapp/json_manipulator.dart';
-import 'package:normalpranzoapp/objects/cart.dart';
+import 'package:normalpranzoapp/models/cart.dart';
 import 'package:normalpranzoapp/pages/dashboard_page.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -40,7 +40,7 @@ class _SplashViewState extends State<SplashView> {
                 Navigator.of(context).pushAndRemoveUntil(
                     new MaterialPageRoute(
                         builder: (context) => new SplashView()),
-                        (route) => false);
+                    (route) => false);
               });
             },
           ),
@@ -77,8 +77,8 @@ class _SplashViewState extends State<SplashView> {
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height / 1.7,
-            left: MediaQuery.of(context).size.width / 2.3,
+            top: MediaQuery.of(context).size.height / 2.3,
+            left: MediaQuery.of(context).size.width / 2.23,
             child: Center(
               child: SpinKitPulse(
                 color: AppTheme.appThemeColor2,

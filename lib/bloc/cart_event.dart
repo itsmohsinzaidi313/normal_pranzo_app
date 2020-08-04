@@ -1,5 +1,5 @@
-import 'package:normalpranzoapp/objects/deal.dart';
-import 'package:normalpranzoapp/objects/product.dart';
+import 'package:normalpranzoapp/models/deal.dart';
+import 'package:normalpranzoapp/models/product.dart';
 
 abstract class CartEvent {}
 

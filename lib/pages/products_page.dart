@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:normalpranzoapp/app_theme.dart';
-import 'package:normalpranzoapp/objects/cart.dart';
-import 'package:normalpranzoapp/objects/product.dart';
+import 'package:normalpranzoapp/models/cart.dart';
+import 'package:normalpranzoapp/models/product.dart';
 import 'package:normalpranzoapp/pages/single_product_page.dart';
 
 class ProductsView extends StatefulWidget {
   final List<Product> list;
   final String title;
+  final bool isDeal;
 
-  ProductsView({this.list, this.title});
+  ProductsView({this.list, this.title, this.isDeal});
 
   @override
   _ProductsViewState createState() =>
-      _ProductsViewState(list: list, title: title);
+      _ProductsViewState(listProducts: list, title: title, isDeal: isDeal);
 }
 
 class _ProductsViewState extends State<ProductsView> {
-  List<Product> list;
+  List<Product> listProducts;
   String title;
-
+  bool isDeal;
   int quantity = 0;
 
-  _ProductsViewState({this.list, this.title});
+  _ProductsViewState({this.listProducts, this.title, this.isDeal});
 
   @override
   void initState() {
+    super.initState();
     quantity = Cart.cart.getProductQuantity();
   }
 
@@ -37,25 +39,25 @@ class _ProductsViewState extends State<ProductsView> {
           context: context),
       body: ListView.builder(
           shrinkWrap: true,
-          itemCount: list.length,
+          itemCount: listProducts.length,
           itemBuilder: (BuildContext context, int index) =>
               getProductWidget(context, index)),
     );
   }
 
   Widget getProductWidget(BuildContext context, int index) {
-    Image image = Image.network(list[index].image, loadingBuilder: (BuildContext context, Widget child,
-            ImageChunkEvent loadingProgress) {
-      if (loadingProgress == null) return child;
-      return Center(
-        child: CircularProgressIndicator(
-          value: loadingProgress.expectedTotalBytes != null
-              ? loadingProgress.cumulativeBytesLoaded /
-                  loadingProgress.expectedTotalBytes
-              : null,
-        ),
-      );
-    });
+    if (isDeal) {
+      return getWidget(listProducts[index].image, listProducts[index].name,
+          listProducts[index]);
+    } else {
+      return getWidget(listProducts[index].image, listProducts[index].name,
+          listProducts[index]);
+    }
+  }
+
+  Widget getWidget(String imageUrl, String name, Product product) {
+    Image image = AppTheme.loadNetworkImage(
+        url: product.image, boxFit: BoxFit.fill, height: 125, width: 125);
     return GestureDetector(
       child: Card(
         child: Padding(
@@ -63,12 +65,12 @@ class _ProductsViewState extends State<ProductsView> {
           child: Row(
             children: <Widget>[
               Container(
-                  width: MediaQuery.of(context).size.width * 0.35,
-                  height: MediaQuery.of(context).size.height * 0.15,
+//                  width: MediaQuery.of(context).size.width * 0.35,
+//                  height: MediaQuery.of(context).size.height * 0.15,
                   child: image),
               Container(
                 width: MediaQuery.of(context).size.width * 0.4,
-                child: AppTheme.autoTextSizeWidget('${list[index].name}'),
+                child: AppTheme.autoTextSizeWidget('$name'),
                 padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
               ),
               Expanded(
@@ -86,8 +88,8 @@ class _ProductsViewState extends State<ProductsView> {
       ),
       onTap: () => Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => SingleProduct(
-                product: list[index],
-                title: list[index].name,
+                product: product,
+                title: name,
               ))),
     );
   }

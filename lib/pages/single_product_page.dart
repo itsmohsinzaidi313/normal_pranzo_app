@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:normalpranzoapp/objects/cart.dart';
-import 'package:normalpranzoapp/objects/product.dart';
+import 'package:normalpranzoapp/models/cart.dart';
+import 'package:normalpranzoapp/models/product.dart';
 
 import '../app_theme.dart';
 
 class SingleProduct extends StatefulWidget {
-  String title;
-  Product product;
+  final String title;
+  final Product product;
 
   SingleProduct({this.title, this.product});
 
@@ -40,8 +40,9 @@ class _SingleProductState extends State<SingleProduct> {
                 children: <Widget>[
                   Container(
                       padding: EdgeInsets.only(top: 10),
-                      child: Image.network(product.image, loadingBuilder:
-                          (BuildContext context, Widget child,
+                      child: Image.network(product.image,
+                          height: 400, width: 400, fit: BoxFit.fill,
+                          loadingBuilder: (BuildContext context, Widget child,
                               ImageChunkEvent loadingProgress) {
                         if (loadingProgress == null) return child;
                         return Center(

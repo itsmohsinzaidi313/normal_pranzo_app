@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:normalpranzoapp/bloc/cart_event.dart';
-import 'package:normalpranzoapp/objects/cart.dart';
-import 'package:normalpranzoapp/objects/deal.dart';
-import 'package:normalpranzoapp/objects/product.dart';
+import 'package:normalpranzoapp/models/cart.dart';
 
 class Bloc {
 //  static Bloc bloc;

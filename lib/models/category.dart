@@ -1,5 +1,5 @@
-import 'package:normalpranzoapp/objects/deal.dart';
-import 'package:normalpranzoapp/objects/product.dart';
+import 'package:normalpranzoapp/models/deal.dart';
+import 'package:normalpranzoapp/models/product.dart';
 
 class Category {
   String _categoryId;
@@ -7,15 +7,21 @@ class Category {
   String _status;
   String _isActive;
   String _image;
+  bool _isDeal = false;
+  List<Product> _products = [];
+  List<Deal> _deals = [];
+
+  bool get isDeal => _isDeal;
+
+  set isDeal(bool value) {
+    _isDeal = value;
+  }
 
   String get image => _image;
 
   set image(String value) {
     _image = value;
   }
-
-  List<Product> _products = [];
-  List<Deal> _deals = [];
 
   List<Deal> get deals => _deals;
 

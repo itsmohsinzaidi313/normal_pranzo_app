@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:normalpranzoapp/app_theme.dart';
-import 'package:normalpranzoapp/objects/cart.dart';
-import 'package:normalpranzoapp/objects/category.dart';
+import 'package:normalpranzoapp/models/category.dart';
 import 'package:normalpranzoapp/pages/products_page.dart';
 
 class CategoriesView extends StatefulWidget {
-  List<Category> list = [];
+  final List<Category> list = [];
 
-  CategoriesView({this.list});
+  CategoriesView({List<Category> list}) {
+    this.list.addAll(list);
+  }
 
   @override
-  _CategoriesViewState createState() => _CategoriesViewState(list: list);
+  _CategoriesViewState createState() =>
+      _CategoriesViewState(listCategory: list);
 }
 
 class _CategoriesViewState extends State<CategoriesView> {
-  List<Category> list = [];
+  final List<Category> listCategory = [];
   int quantity = 0;
 
-  _CategoriesViewState({this.list});
+  _CategoriesViewState({List<Category> listCategory}) {
+    this.listCategory.addAll(listCategory);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,7 @@ class _CategoriesViewState extends State<CategoriesView> {
           context: context),
       body: ListView.builder(
           shrinkWrap: true,
-          itemCount: list.length,
+          itemCount: listCategory.length,
           itemBuilder: (BuildContext context, int index) =>
               getCategoriesWidgets(context, index)),
     );
@@ -43,22 +47,15 @@ class _CategoriesViewState extends State<CategoriesView> {
             children: <Widget>[
               Container(
                   height: MediaQuery.of(context).size.height * 0.15,
-                  child: Image.network(
-                      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTsphabW9FdQml5MQm_Z2lM8lDYBcPe-GEocA&usqp=CAU',
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes
-                            : null,
-                      ),
-                    );
-                  })),
+                  child: AppTheme.loadNetworkImage(
+                      url:
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTsphabW9FdQml5MQm_Z2lM8lDYBcPe-GEocA&usqp=CAU',
+                      boxFit: BoxFit.fill,
+                      height: 125,
+                      width: 125)),
               Container(
-                child: AppTheme.autoTextSizeWidget('${list[index].name}'),
+                child:
+                    AppTheme.autoTextSizeWidget('${listCategory[index].name}'),
                 padding: EdgeInsets.only(
                   left: 8,
                   right: 8,
@@ -79,8 +76,9 @@ class _CategoriesViewState extends State<CategoriesView> {
       ),
       onTap: () => Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => ProductsView(
-                list: list[index].products,
-                title: list[index].name,
+                list: listCategory[index].products,
+                title: listCategory[index].name,
+                isDeal: listCategory[index].isDeal,
               ))),
     );
   }

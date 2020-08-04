@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:normalpranzoapp/json_manipulator.dart';
-import 'package:normalpranzoapp/objects/cart.dart';
+import 'package:normalpranzoapp/models/cart.dart';
 import 'package:normalpranzoapp/pages/cart_page.dart';
 import 'package:normalpranzoapp/pages/events_page.dart';
 import 'package:normalpranzoapp/pages/promotions_page.dart';
 import 'package:normalpranzoapp/pages/table_reservation_page.dart';
 import 'package:progress_dialog/progress_dialog.dart';
-
 import 'bloc/bloc.dart';
 
 class AppTheme {
@@ -52,12 +51,12 @@ class AppTheme {
 
   static ListTile listTileWidget(String title,
       {Widget leading,
-        Widget trailing,
-        String subtitle = '',
-        bool isThreeLine = false,
-        double minFontSize,
-        double maxFontSize,
-        FontWeight fontWeight}) {
+      Widget trailing,
+      String subtitle = '',
+      bool isThreeLine = false,
+      double minFontSize,
+      double maxFontSize,
+      FontWeight fontWeight}) {
     return ListTile(
       leading: leading,
       title: AppTheme.autoTextSizeWidget(title,
@@ -153,7 +152,7 @@ class AppTheme {
             actions: <Widget>[
               FlatButton(
                 child:
-                Text('OK', style: TextStyle(color: AppTheme.standardShade)),
+                    Text('OK', style: TextStyle(color: AppTheme.standardShade)),
                 onPressed: onOKPressed,
               )
             ],
@@ -189,7 +188,9 @@ class AppTheme {
     return AppBar(
       centerTitle: true,
       title: autoTextSizeWidget(title.toUpperCase(),
-          fontWeight: FontWeight.bold, fontColor: AppTheme.appThemeColor),
+          fontSize: 2127,
+          fontWeight: FontWeight.bold,
+          fontColor: AppTheme.appThemeColor),
       backgroundColor: Colors.white,
       leading: IconButton(
         icon: Icon(
@@ -205,31 +206,30 @@ class AppTheme {
             children: <Widget>[
               Positioned(
                   child: IconButton(
-                    icon: Icon(
-                      Icons.shopping_cart,
-                      size: 35,
-                      color: appThemeColor,
-                    ),
-                    onPressed: () {
-                      if (Cart.cart.getProductQuantity() >= 1)
-                        Navigator.of(context).push(new MaterialPageRoute(
-                            builder: (BuildContext context) => CartView()));
-                      else
-                        FlutterToast(context).showToast(
-                            child: Container(
-                              padding: EdgeInsets.all(10.0),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(40),
-                                  color: Colors.grey[600]),
-                              child: Text(
-                                'Your cart is empty.',
-                                style: TextStyle(
-                                    fontSize: 21, color: Colors.white),
-                              ),
-                            ),
-                            toastDuration: Duration(seconds: 3));
-                    },
-                  )),
+                icon: Icon(
+                  Icons.shopping_cart,
+                  size: 35,
+                  color: appThemeColor,
+                ),
+                onPressed: () {
+                  if (Cart.cart.getProductQuantity() >= 1)
+                    Navigator.of(context).push(new MaterialPageRoute(
+                        builder: (BuildContext context) => CartView()));
+                  else
+                    FlutterToast(context).showToast(
+                        child: Container(
+                          padding: EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              color: Colors.grey[600]),
+                          child: Text(
+                            'Your cart is empty.',
+                            style: TextStyle(fontSize: 21, color: Colors.white),
+                          ),
+                        ),
+                        toastDuration: Duration(seconds: 3));
+                },
+              )),
             ],
           ),
         ),
@@ -237,11 +237,12 @@ class AppTheme {
     );
   }
 
-  static AppBar optpAppBarC({String title,
-    Function onPressed,
-    BuildContext context,
-    int quantity,
-    Bloc bloc}) {
+  static AppBar optpAppBarC(
+      {String title,
+      Function onPressed,
+      BuildContext context,
+      int quantity,
+      Bloc bloc}) {
     return AppBar(
       centerTitle: true,
       title: Text(title.toUpperCase(),
@@ -262,16 +263,15 @@ class AppTheme {
             children: <Widget>[
               Positioned(
                   child: IconButton(
-                    icon: Icon(
-                      Icons.shopping_cart,
-                      size: 50,
-                      color: appThemeColor,
-                    ),
-                    onPressed: () =>
-                        Navigator.of(context).push(
-                            new MaterialPageRoute(
-                                builder: (BuildContext context) => CartView())),
-                  )),
+                icon: Icon(
+                  Icons.shopping_cart,
+                  size: 50,
+                  color: appThemeColor,
+                ),
+                onPressed: () => Navigator.of(context).push(
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => CartView())),
+              )),
               Positioned(
                 right: 25,
                 child: Container(
@@ -323,7 +323,7 @@ class AppTheme {
                     progressDialog.hide();
                     Navigator.of(context).push(new MaterialPageRoute(
                         builder: (BuildContext context) =>
-                        new PromotionsView(value)));
+                            new PromotionsView(value)));
                   });
                 }),
             GestureDetector(
@@ -338,9 +338,8 @@ class AppTheme {
                     progressDialog.hide();
                     Navigator.of(context).push(new MaterialPageRoute(
                         builder: (BuildContext context) =>
-                        new EventsView(value)));
+                            new EventsView(value)));
                   });
-                  ;
                 }),
             GestureDetector(
                 child: AppTheme.listTileWidget(
@@ -349,13 +348,29 @@ class AppTheme {
                   maxFontSize: 18,
                   trailing: Icon(Icons.arrow_forward_ios),
                 ),
-                onTap: () =>
-                    Navigator.of(context).push(new MaterialPageRoute(
-                        builder: (BuildContext context) =>
+                onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context) =>
                         new TableReservationView()))),
           ],
         ),
       ),
     );
+  }
+
+  static Widget loadNetworkImage(
+      {String url, double height, double width, BoxFit boxFit}) {
+    return Image.network(url, height: height, width: width, fit: boxFit,
+        loadingBuilder: (BuildContext context, Widget child,
+            ImageChunkEvent loadingProgress) {
+      if (loadingProgress == null) return child;
+      return Center(
+        child: CircularProgressIndicator(
+          value: loadingProgress.expectedTotalBytes != null
+              ? loadingProgress.cumulativeBytesLoaded /
+                  loadingProgress.expectedTotalBytes
+              : null,
+        ),
+      );
+    });
   }
 }

@@ -4,17 +4,17 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 import 'package:normalpranzoapp/config.dart';
-import 'package:normalpranzoapp/objects/category.dart';
-import 'package:normalpranzoapp/objects/customer.dart';
-import 'package:normalpranzoapp/objects/deal.dart';
-import 'package:normalpranzoapp/objects/deal_item.dart';
-import 'package:normalpranzoapp/objects/events.dart';
-import 'package:normalpranzoapp/objects/json_elements.dart';
-import 'package:normalpranzoapp/objects/product.dart';
-import 'package:normalpranzoapp/objects/reservation.dart';
+import 'package:normalpranzoapp/models/category.dart';
+import 'package:normalpranzoapp/models/customer.dart';
+import 'package:normalpranzoapp/models/deal.dart';
+import 'package:normalpranzoapp/models/deal_item.dart';
+import 'package:normalpranzoapp/models/events.dart';
+import 'package:normalpranzoapp/models/json_elements.dart';
+import 'package:normalpranzoapp/models/product.dart';
+import 'package:normalpranzoapp/models/reservation.dart';
 
-import 'objects/promotion.dart';
-import 'objects/restaurant.dart';
+import 'package:normalpranzoapp/models/promotion.dart';
+import 'package:normalpranzoapp/models/restaurant.dart';
 
 class JsonManipulator {
   Logger _log = Config.log;
@@ -42,8 +42,8 @@ class JsonManipulator {
         if (data.length > 0) {
           List<Restaurant> restaurants = [];
           List<Category> categories = [];
-          List<Product> products = [];
-          List<Deal> deals = [];
+          // List<Product> products = [];
+          // List<Deal> deals = [];
 
           data.forEach((element) {
             Restaurant restaurant = new Restaurant();
@@ -57,6 +57,7 @@ class JsonManipulator {
             List<dynamic> categoriesJson = element['categories'];
             categoriesJson.forEach((categoryJson) {
               Category category = new Category();
+              category.isDeal = false;
               category.categoryId = categoryJson['categoryId'];
 //              category.image = categoryJson['image'];
               category.isActive = categoryJson['isActive'];
@@ -81,6 +82,7 @@ class JsonManipulator {
             //DEALS
             List<dynamic> dealsJson = element['deals'];
             Category dealCategory = new Category();
+            dealCategory.isDeal = true;
             dealCategory.name = 'Deals';
             for (int i = 0; i < dealsJson.length; i++) {
               Deal deal = new Deal();
@@ -90,6 +92,15 @@ class JsonManipulator {
               deal.quantity = 1;
               deal.isHolDeal = dealsJson[i]['isHotDeal'].toString();
               deal.isActive = dealsJson[i]['isActive'];
+
+              Product dealProduct = new Product();
+              dealProduct.productId = dealsJson[i]['dealId'];
+              dealProduct.name = dealsJson[i]['name'];
+              dealProduct.price =
+                  double.parse(dealsJson[i]['price'].toString());
+              dealProduct.image = dealsJson[i]['image'];
+              dealProduct.quantity = 1;
+              dealCategory.products.add(dealProduct);
 
               List<dynamic> dealItemsJson = dealsJson[i]['dealItems'];
               dealItemsJson.forEach((dealItemJson) {
@@ -145,6 +156,8 @@ class JsonManipulator {
           return restaurants;
         }
       } else {
+        map = map['data'];
+        messages.add(map['message']);
         return null;
       }
     } else {
@@ -208,7 +221,7 @@ class JsonManipulator {
     Response response = await post(Config.apiPostOrder,
             headers: header, body: postOrder.getMap())
         .timeout(Duration(seconds: Config.connectionTimeout),
-        onTimeout: () => null)
+            onTimeout: () => null)
         .catchError((onError) => handelException(onError));
     bool success = jsonDecode(response.body)['success'];
     Map data = jsonDecode(response.body)['data'];
@@ -285,9 +298,9 @@ class JsonManipulator {
     bool status = false;
     try {
       Response response =
-      await post(Config.apiTableReservation, body: reservation.getMap())
-          .timeout(Duration(seconds: 10), onTimeout: () => null)
-          .catchError((onError) => handelException(onError));
+          await post(Config.apiTableReservation, body: reservation.getMap())
+              .timeout(Duration(seconds: 10), onTimeout: () => null)
+              .catchError((onError) => handelException(onError));
       bool success = jsonDecode(response.body)['success'];
       if (response != null) {
         if (success) {

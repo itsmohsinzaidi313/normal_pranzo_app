@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:normalpranzoapp/json_manipulator.dart';
-import 'package:normalpranzoapp/objects/customer.dart';
+import 'package:normalpranzoapp/models/customer.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 import '../app_theme.dart';
@@ -81,7 +81,7 @@ class _SignUpViewState extends State<SignUpView> {
                                         hintText: 'Your Name',
                                         icon: Icon(Icons.person)),
                                     validator: (value) =>
-                                    value.isEmpty ? "Required" : null,
+                                        value.isEmpty ? "Required" : null,
                                     onSaved: (value) => name = value,
                                   ),
                                   TextFormField(
@@ -89,7 +89,7 @@ class _SignUpViewState extends State<SignUpView> {
                                         hintText: 'Mobile #',
                                         icon: Icon(Icons.phone)),
                                     validator: (value) =>
-                                    value.isEmpty ? 'Required' : null,
+                                        value.isEmpty ? 'Required' : null,
                                     onSaved: (value) => contact = value,
                                   ),
                                   TextFormField(
@@ -97,7 +97,7 @@ class _SignUpViewState extends State<SignUpView> {
                                         hintText: 'Delivery Address',
                                         icon: Icon(Icons.home)),
                                     validator: (value) =>
-                                    value.isEmpty ? "Required" : null,
+                                        value.isEmpty ? "Required" : null,
                                     onSaved: (value) => add1 = value,
                                   ),
                                   TextFormField(
@@ -105,7 +105,7 @@ class _SignUpViewState extends State<SignUpView> {
                                         hintText: 'Payment Address',
                                         icon: Icon(Icons.location_city)),
                                     validator: (value) =>
-                                    value.isEmpty ? "Required" : null,
+                                        value.isEmpty ? "Required" : null,
                                     onSaved: (value) => add2 = value,
                                   ),
                                   TextFormField(
@@ -113,7 +113,7 @@ class _SignUpViewState extends State<SignUpView> {
                                         hintText: 'Password',
                                         icon: Icon(Icons.vpn_key)),
                                     validator: (value) =>
-                                    value.isEmpty ? "Required" : null,
+                                        value.isEmpty ? "Required" : null,
                                     onSaved: (value) => password = value,
                                   ),
                                 ],
@@ -138,7 +138,7 @@ class _SignUpViewState extends State<SignUpView> {
                                       customer.paymentAddress = add2;
                                       customer.password = password;
                                       JsonManipulator jsonManipulator =
-                                      new JsonManipulator();
+                                          new JsonManipulator();
                                       jsonManipulator
                                           .signUp(customer)
                                           .then((value) {
@@ -148,14 +148,13 @@ class _SignUpViewState extends State<SignUpView> {
                                               context,
                                               'Success',
                                               ('Your account has been created.\nPlease go back and sign in to place order'),
-                                                  () => Navigator.pop(context));
+                                              () => Navigator.pop(context));
                                         else
                                           AppTheme.showAlertDialogOK(
                                               context,
                                               'Failure',
-                                              ('${jsonManipulator
-                                                  .messages[0]}\nPlease try again later.'),
-                                                  () => Navigator.pop(context));
+                                              ('${jsonManipulator.messages[0]}\nPlease try again later.'),
+                                              () => Navigator.pop(context));
                                       });
                                     }
                                   })),

@@ -1,4 +1,4 @@
-import 'package:normalpranzoapp/objects/product.dart';
+import 'package:normalpranzoapp/models/product.dart';
 
 class DealItem extends Product {
   String _dealId;

@@ -1,5 +1,5 @@
-import 'package:normalpranzoapp/objects/deal_item.dart';
-import 'package:normalpranzoapp/objects/product.dart';
+import 'package:normalpranzoapp/models/deal_item.dart';
+import 'package:normalpranzoapp/models/product.dart';
 
 class Deal {
   String _dealId;

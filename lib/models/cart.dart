@@ -1,4 +1,4 @@
-import 'package:normalpranzoapp/objects/product.dart';
+import 'package:normalpranzoapp/models/product.dart';
 
 import 'deal.dart';
 

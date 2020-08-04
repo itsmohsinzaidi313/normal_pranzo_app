@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:normalpranzoapp/json_manipulator.dart';
-import 'package:normalpranzoapp/objects/json_elements.dart';
+import 'package:normalpranzoapp/models/json_elements.dart';
 import 'package:normalpranzoapp/pages/dashboard_page.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
@@ -145,7 +145,7 @@ class _PlaceOrderViewState extends State<PlaceOrderView> {
                                                         new MaterialPageRoute(
                                                             builder: (context) =>
                                                                 DashBoardView(
-                                                                      restaurants,
+                                                                  restaurants,
                                                                 )),
                                                         (route) => false));
                                           });

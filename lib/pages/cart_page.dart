@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:normalpranzoapp/app_theme.dart';
-import 'package:normalpranzoapp/objects/cart.dart';
-import 'package:normalpranzoapp/objects/product.dart';
+import 'package:normalpranzoapp/models/cart.dart';
+import 'package:normalpranzoapp/models/product.dart';
 import 'package:normalpranzoapp/pages/signIn_page.dart';
 
 class CartView extends StatefulWidget {

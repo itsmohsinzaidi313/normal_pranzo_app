@@ -1,5 +1,5 @@
-import 'package:normalpranzoapp/objects/deal.dart';
-import 'package:normalpranzoapp/objects/promotion.dart';
+import 'package:normalpranzoapp/models/deal.dart';
+import 'package:normalpranzoapp/models/promotion.dart';
 
 import 'category.dart';
 

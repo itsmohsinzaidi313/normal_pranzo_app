@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class PostOrder {
   String _mobileNo;
   String _customerName;

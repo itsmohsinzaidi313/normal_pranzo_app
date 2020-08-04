@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:normalpranzoapp/app_theme.dart';
-import 'package:normalpranzoapp/objects/reservation.dart';
+import 'package:normalpranzoapp/models/reservation.dart';
 import 'package:progress_dialog/progress_dialog.dart';
-
 import '../json_manipulator.dart';
 
 class TableReservationView extends StatefulWidget {
@@ -35,7 +34,7 @@ class _TableReservationViewState extends State<TableReservationView> {
       body: Stack(
         children: <Widget>[
           SingleChildScrollView(
-            child: Column(
+            child: Wrap(
               children: <Widget>[
                 Center(
                   heightFactor: 1.1,
@@ -53,9 +52,7 @@ class _TableReservationViewState extends State<TableReservationView> {
                           width: 3,
                           color: AppTheme.appThemeColor,
                         )),
-                    height: MediaQuery
-                        .of(context)
-                        .size.height * 0.80,
+                    height: MediaQuery.of(context).size.height * 0.80,
                     width: MediaQuery.of(context).size.width * 0.92,
                     child: Form(
                       child: Column(
@@ -92,7 +89,7 @@ class _TableReservationViewState extends State<TableReservationView> {
                                         hintText: 'Mobile #',
                                         icon: Icon(Icons.phone)),
                                     validator: (value) =>
-                                    value.isEmpty ? 'Required' : null,
+                                        value.isEmpty ? 'Required' : null,
                                     onSaved: (value) => contact = value,
                                   ),
                                   TextFormField(
@@ -117,10 +114,9 @@ class _TableReservationViewState extends State<TableReservationView> {
                                           child: Text('Credit'),
                                         ),
                                       ],
-                                      onChanged: (value) =>
-                                      paymentMode = value,
+                                      onChanged: (value) => paymentMode = value,
                                       validator: (value) =>
-                                      value == null ? "Required" : null,
+                                          value == null ? "Required" : null,
                                     ),
                                   ),
                                   GestureDetector(
@@ -171,7 +167,7 @@ class _TableReservationViewState extends State<TableReservationView> {
                                       formKey.currentState.save();
                                       progressDialog.show();
                                       Reservation reservation =
-                                      new Reservation();
+                                          new Reservation();
                                       reservation.customerName = name;
                                       reservation.noOfGuests = noOfGuests;
                                       reservation.paymentMode =
@@ -204,16 +200,14 @@ class _TableReservationViewState extends State<TableReservationView> {
                                           context,
                                           'Attention',
                                           ('Please select date'),
-                                              () =>
-                                              Navigator.of(context).pop());
+                                          () => Navigator.of(context).pop());
                                     } else if (time.toLowerCase() ==
                                         'select time') {
                                       AppTheme.showAlertDialogOK(
                                           context,
                                           'Attention',
                                           ('Please select time'),
-                                              () =>
-                                              Navigator.of(context).pop());
+                                          () => Navigator.of(context).pop());
                                     }
                                   })),
                         ],
